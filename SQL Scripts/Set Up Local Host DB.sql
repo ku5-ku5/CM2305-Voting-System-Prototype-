@@ -11,16 +11,45 @@ USE VoteDB;
 CREATE TABLE Vote(
   VoteId CHAR(38) NOT NULL UNIQUE,
   PoliticalPartyID CHAR(38) NOT NULL, 
-  VoteStatus BINARY(1) DEFAULT 0, 
+  VoteStatus BINARY(1) DEFAULT 0,
+  VoteTimestamp DATETIME NOT NULL,
   PRIMARY KEY (VoteId), 
   FOREIGN KEY (PoliticalPartyID) REFERENCES PoliticialParty(UId) 
 ); 
+users
 
 CREATE TABLE Users( 
   UserUId CHAR(38) NOT NULL UNIQUE,
   EligibleToVote BINARY(1) DEFAULT 0,
   Email VARCHAR(255) NOT NULL UNIQUE,
   PwdHash VARCHAR(255),
+  HasVoted BINARY(1) DEFAULT 0,
   IsOfficial BINARY(1) DEFAULT 0,
   PRIMARY KEY (UserUId)
 );
+
+
+INSERT INTO `votedb`.`politicialparty`
+(`UId`,
+`Name`)
+VALUES
+(UUID(),
+'Labour');
+INSERT INTO `votedb`.`politicialparty`
+(`UId`,
+`Name`)
+VALUES
+(UUID(),
+'Conservative');
+INSERT INTO `votedb`.`politicialparty`
+(`UId`,
+`Name`)
+VALUES
+(UUID(),
+'UKIP');
+INSERT INTO `votedb`.`politicialparty`
+(`UId`,
+`Name`)
+VALUES
+(UUID(),
+'Green Party');
