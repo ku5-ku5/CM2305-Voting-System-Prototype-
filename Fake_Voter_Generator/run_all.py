@@ -4,7 +4,7 @@ import random
 import datetime
 import time
 
-pwd = "H0tr0d99"
+pwd = "INSERT_PASSWORD"
 try:
     votedb = mysql.connector.connect(
       host="localhost",
