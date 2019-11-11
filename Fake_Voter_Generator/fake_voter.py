@@ -22,6 +22,8 @@ sql = "INSERT INTO `votedb`.`users` (`UserUId`,`EligibleToVote`,`Email`,`PwdHash
 
 i=0
 while i <= 100:
+    i += 1
+
     hash = random.getrandbits(128)
     val = (fake.email(), hash)
     mycursor.execute(sql, val)
