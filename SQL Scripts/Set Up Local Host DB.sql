@@ -2,7 +2,7 @@ CREATE DATABASE VoteDB;
 
 USE VoteDB;
 
- CREATE TABLE PoliticialParty(
+ CREATE TABLE PoliticalParty(
   UId CHAR(38) NOT NULL UNIQUE,
   Name VARCHAR(255) NOT NULL,
   PRIMARY KEY (UId)
@@ -14,7 +14,7 @@ CREATE TABLE Vote(
   VoteStatus TINYINT(1) DEFAULT 0,
   VoteTimestamp DATETIME NOT NULL,
   PRIMARY KEY (VoteId),
-  FOREIGN KEY (PoliticalPartyID) REFERENCES PoliticialParty(UId)
+  FOREIGN KEY (PoliticalPartyID) REFERENCES PoliticalParty(UId)
 );
 users
 
