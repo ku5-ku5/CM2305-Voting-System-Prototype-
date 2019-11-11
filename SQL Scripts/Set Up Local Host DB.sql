@@ -29,25 +29,25 @@ CREATE TABLE Users(
 );
 
 
-INSERT INTO `votedb`.`politicialparty`
+INSERT INTO `votedb`.`politicalparty`
 (`UId`,
 `Name`)
 VALUES
 (UUID(),
 'Labour');
-INSERT INTO `votedb`.`politicialparty`
+INSERT INTO `votedb`.`politicalparty`
 (`UId`,
 `Name`)
 VALUES
 (UUID(),
 'Conservative');
-INSERT INTO `votedb`.`politicialparty`
+INSERT INTO `votedb`.`politicalparty`
 (`UId`,
 `Name`)
 VALUES
 (UUID(),
 'UKIP');
-INSERT INTO `votedb`.`politicialparty`
+INSERT INTO `votedb`.`politicalparty`
 (`UId`,
 `Name`)
 VALUES
