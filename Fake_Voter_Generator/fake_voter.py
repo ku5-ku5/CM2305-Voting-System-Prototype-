@@ -29,4 +29,7 @@ while i < 100:
     mycursor.execute(sql, val)
 
     mydb.commit()
-    print(str(i) + " record inserted, Email and Hash:" + str(val))
+    if i == 1:
+        print(str(i) + " record inserted, Email and Hash:" + str(val))
+    else:
+        print(str(i) + " records inserted, Email and Hash:" + str(val))
