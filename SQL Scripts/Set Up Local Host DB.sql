@@ -33,23 +33,23 @@ INSERT INTO `votedb`.`politicalparty`
 (`UId`,
 `Name`)
 VALUES
-(UUID(),
+('c5a60d73-ffe0-11e9-8f05-1831bf97a796',
 'Labour');
 INSERT INTO `votedb`.`politicalparty`
 (`UId`,
 `Name`)
 VALUES
-(UUID(),
+('c5a7721d-ffe0-11e9-8f05-1831bf97a796',
 'Conservative');
 INSERT INTO `votedb`.`politicalparty`
 (`UId`,
 `Name`)
 VALUES
-(UUID(),
+('c5a8f70d-ffe0-11e9-8f05-1831bf97a796',
 'UKIP');
 INSERT INTO `votedb`.`politicalparty`
 (`UId`,
 `Name`)
 VALUES
-(UUID(),
+('c5aae837-ffe0-11e9-8f05-1831bf97a796',
 'Green Party');
