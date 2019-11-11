@@ -13,6 +13,7 @@ mydb = mysql.connector.connect(
   passwd="INSERT_PASSWORD",
   database="votedb"
 )
+#Adds the mysql connector cursor needed to execute INSERT statement
 mycursor = mydb.cursor()
 
 #adds the instance of the Faker module

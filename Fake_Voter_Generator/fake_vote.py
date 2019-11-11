@@ -4,13 +4,13 @@ import datetime
 import time
 
 #add your username and password to your own local account below
-mydb = mysql.connector.connect(
+votedb = mysql.connector.connect(
   host="localhost",
   user="root",
   passwd="INSERT_PASSWORD",
   database="votedb"
 )
-mycursor = mydb.cursor()
+mycursor = votedb.cursor()
 
 sql = "INSERT INTO `votedb`.`vote` (`VoteId`,`PoliticalPartyID`,`VoteTimestamp`)VALUES (UUID(), %s, %s);"
 
@@ -26,7 +26,7 @@ while i < 100:
     val = (random.choice(party_array), date)
     mycursor.execute(sql, val)
 
-    mydb.commit()
+    votedb.commit()
     if i == 1:
         print(str(i) + " record inserted, PartyUId and date:" + str(val))
     else:
