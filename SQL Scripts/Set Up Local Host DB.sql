@@ -11,12 +11,12 @@ USE VoteDB;
 CREATE TABLE Vote(
   VoteId CHAR(38) NOT NULL UNIQUE,
   PoliticalPartyID CHAR(38) NOT NULL,
-  VoteStatus TINYINT(1) DEFAULT 0,
+  /**VoteStatus TINYINT(1) DEFAULT 0,**/
   VoteTimestamp DATETIME NOT NULL,
   PRIMARY KEY (VoteId),
   FOREIGN KEY (PoliticalPartyID) REFERENCES PoliticalParty(UId)
 );
-users
+
 
 CREATE TABLE Users(
   UserUId CHAR(38) NOT NULL UNIQUE,
@@ -53,3 +53,21 @@ INSERT INTO `votedb`.`politicalparty`
 VALUES
 ('c5aae837-ffe0-11e9-8f05-1831bf97a796',
 'Green Party');
+INSERT INTO `votedb`.`politicalparty`
+(`UId`,
+`Name`)
+VALUES
+('29478d29-0489-11ea-be81-1831bf97a796',
+'DUP');
+INSERT INTO `votedb`.`politicalparty`
+(`UId`,
+`Name`)
+VALUES
+('2948f383-0489-11ea-be81-1831bf97a796',
+'SNP');
+INSERT INTO `votedb`.`politicalparty`
+(`UId`,
+`Name`)
+VALUES
+('294980dc-0489-11ea-be81-1831bf97a796',
+'Plaid Cymru');
