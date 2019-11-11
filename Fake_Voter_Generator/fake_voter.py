@@ -21,7 +21,7 @@ fake = Faker()
 sql = "INSERT INTO `votedb`.`users` (`UserUId`,`EligibleToVote`,`Email`,`PwdHash`,`IsOfficial`,`HasVoted`)VALUES (UUID(), 0, %s, %s, 0, 0);"
 
 i=0
-while i <= 100:
+while i < 100:
     i += 1
 
     hash = random.getrandbits(128)

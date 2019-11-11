@@ -18,7 +18,7 @@ party_array = ['c5a60d73-ffe0-11e9-8f05-1831bf97a796', 'c5a7721d-ffe0-11e9-8f05-
 
 
 i=0
-while i <= 100:
+while i < 100:
     i += 1
 
     date = datetime.datetime.now()
