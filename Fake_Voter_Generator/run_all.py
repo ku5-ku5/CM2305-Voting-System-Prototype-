@@ -5,6 +5,7 @@ import datetime
 import time
 
 pwd = "INSERT_PASSWORD"
+
 try:
     votedb = mysql.connector.connect(
       host="localhost",
@@ -68,6 +69,7 @@ def create_tables():
 
     table_cursor.close()
     dbcursor.close()
+
 def parties():
     party_cursor = votedb.cursor()
 
@@ -178,8 +180,11 @@ def fake_vote():
 
 
 #The below will run the functions
+
+#Create statements
 create_database()
 create_tables()
+#Insert statements that populate the data
 parties()
 fake_voters()
 fake_vote()
