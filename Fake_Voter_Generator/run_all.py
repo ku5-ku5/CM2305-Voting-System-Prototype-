@@ -177,7 +177,7 @@ def fake_vote():
             print(str(i) + " records inserted, PartyUId and date:" + str(val))
         #script will sleep for 5 seconds so that all the data isnt at the same time however can be commented out
         #time.sleep(5)
-
+    cursor.close()
 
 #The below will run the functions
 
