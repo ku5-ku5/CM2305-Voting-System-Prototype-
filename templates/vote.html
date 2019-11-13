@@ -1,4 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
 	<!-- code to read in and display the candidates you can vote for -->
+  <div class="vote-container">
+
+  {% for Name in politicalparty| sort(attribute='Name') %}
+  <div class="vote">
+      <input type="radio" name="" value="{{ politicalparty.name }}">{{ politicalparty.name }}<<br>
+  </div>
+  {% endfor %}
+</div>
 {% endblock content %}
