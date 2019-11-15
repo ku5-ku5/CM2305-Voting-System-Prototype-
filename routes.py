@@ -8,8 +8,9 @@ from prototype import app
 def login():
     form = loginForm()
     if request.method == 'POST':
-        user = User.query.filter_by(email=form.email.data).first()
-        if user is not None and user.verify_password(form.password.data):
+        user = Users.query.filter_by(email=form.email.data).first()
+		user_pw_hash = Users.query.filter_by(email=form.email.data).options(load_only(password))
+        if user is not None and check_password_hash(user_pw_hash, form.password.data):
             login_user(user)
             flash("Login successful!!")
             return redirect(url_for('vote'))
