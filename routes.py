@@ -6,7 +6,17 @@ from prototype import app
 @app.route("/")
 @app.route("/login")
 def login():
-	return(render_template('login.html', title="Online Vote - Login"))
+    form= loginForm()
+    if request.method == 'POST':
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is not None and user.verify_password(form.password.data):
+            login_user(user)
+            flash("Login successful!!")
+            return redirect(url_for('vote'))
+        else:
+            flash("Invalid username or password!")
+            return redirect(url_for('login'))
+	return(render_template('login.html', title="Online Vote - Login",form=form))
 
 @app.route("/register", methods=['GET','POST'])
 def register():
@@ -19,7 +29,7 @@ def register():
 			db.session.commit()
 		else:
 			flash("Password error please try again")
-	return(render_template('register.html', title="Online Vote - Register"))
+	return(render_template('register.html', title="Online Vote - Register",form=form))
 
 @app.route("/vote", methods=['GET','POST'])
 def vote():
