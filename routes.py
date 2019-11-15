@@ -15,6 +15,8 @@ def register():
 		password_hash = generate_password_hash(form.password.data, "sha256")
 		if check_password_hash(password_hash, form.password.data):
 			user = Users(Email=form.email.data, password=password_hash)
+			db.session.add(user)
+			db.session.commit()
 		else:
 			flash("Password error please try again")
 	return(render_template('register.html', title="Online Vote - Register"))
