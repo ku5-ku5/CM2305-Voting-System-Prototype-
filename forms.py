@@ -21,4 +21,4 @@ class loginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
 
-class SubmitVoteForm(FlaskForm):
+#class SubmitVoteForm(FlaskForm):

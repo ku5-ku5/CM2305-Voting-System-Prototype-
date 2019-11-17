@@ -11,4 +11,4 @@ app.config['SECRET_KEY'] = 'de7f35de261b964a421d1f296a151bf76ecffe5207861827'
 #login_manager = LoginManager()
 #login_manager.init_app(app)
 
-from prototype import routes
+from Prototype import routes

@@ -1,4 +1,4 @@
-from prototype import db, login_manager
+from Prototype import db, login_manager
 
 class PoliticalParty(db.Model):
 	id = db.Column(db.Char(38), primary_key = True)
@@ -8,7 +8,7 @@ class PoliticalParty(db.Model):
 	def __repr__(self):
 		return f"PoliticalParty('{self.Name}')"
 
-class Users(db.Model):
+class User(db.Model):
 	id = db.Column(db.Char(38), primary_key = True)
 	EligibleToVote = db.Column(db.TINYINT(1))
 	Email = db.Column(db.Varchar(255), nullable = False)
@@ -17,7 +17,7 @@ class Users(db.Model):
 	Votes = db.relationship('Vote', backref='user', lazy = True)
 
 	def __repr__(self):
-		return f"Users('{self.EligibleToVote}', '{self.Email}', '{self.Password}', '{self.IsOfficial}')"
+		return f"User('{self.EligibleToVote}', '{self.Email}', '{self.Password}', '{self.IsOfficial}')"
 
 class Vote(db.Model):
 	id = db.Column(db.Char(38), primary_key = True)
