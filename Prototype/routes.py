@@ -16,8 +16,8 @@ def login():
             flash("Login successful!!")
             return redirect(url_for('vote'))
         else:
-            return flash("Invalid username or password!")
-        return render_template('login.html', title="Online Vote - Login",form=form)
+            flash("Invalid username or password!")
+            return redirect(url_for('login'))
     return render_template('login.html', title="Online Vote - Login",form=form)
 
 @app.route("/register", methods=['GET','POST'])
