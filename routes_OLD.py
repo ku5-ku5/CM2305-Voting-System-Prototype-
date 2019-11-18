@@ -1,3 +1,4 @@
+"""
 import os
 from flask import render_template, url_for, request, redirect, flash
 from Prototype import app
@@ -26,3 +27,4 @@ def register():
 def vote():
 	parties = PoliticalParty.query.all()
 	return(render_template('vote.html', politicalparty=parties, title="Voting Page"))
+"""

@@ -17,12 +17,12 @@ class Users(db.Model):
 	Votes = db.relationship('Vote', backref='user', lazy = True)
 
 	def __repr__(self):
-		return f"User('{self.EligibleToVote}', '{self.Email}', '{self.Password}', '{self.IsOfficial}')"
+		return f"User('{self.EligibleToVote}', '{self.Email}', '{self.PwdHash}', '{self.IsOfficial}')"
 
 class Vote(db.Model):
 	VoteId = db.Column(db.Char(38), unique = True, primary_key = True)
 	PoliticalPartyID = db.Column(db.Char(38), db.ForeignKey('party.UId'), nullable = False)
-	VoteStatus = db.Column(db.TINYINT(1))
+	VoteStatus = db.Column(db.TINYINT(1), default = 0)
 	VoteTimestamp = db.Column(db.DATETIME(), nullable = False)
 
 	def __repr__(self):
