@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from prototype import app
 
 @app.route("/")
-@app.route("/login")
+@app.route("/login", methods = ['GET', 'POST'])
 def login():
     form = loginForm()
     if request.method == 'POST':
