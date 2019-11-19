@@ -11,11 +11,10 @@ class PoliticalParty(db.Model):
 class Users(db.Model):
 	UId = db.Column(db.CHAR(38), unique = True, primary_key = True)
 	EligibleToVote = db.Column(TINYINT(1), default = 0)
-	Email = db.Column(db.String(255), unique = True, nullable = False)
+	email = db.Column(db.String(255), unique = True, nullable = False)
 	PwdHash = db.Column(db.String(255), nullable = False)
 	HasVoted = db.Column(TINYINT(1), default = 0)
 	IsOfficial = db.Column(TINYINT(1), default = 0)
-	Votes = db.relationship('Vote', backref='user', lazy = True)
 
 	def __repr__(self):
 		return f"User('{self.EligibleToVote}', '{self.Email}', '{self.PwdHash}', '{self.IsOfficial}')"

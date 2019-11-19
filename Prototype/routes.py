@@ -11,7 +11,7 @@ def login():
     form = loginForm()
     if request.method == 'POST':
         user = Users.query.filter_by(email=form.email.data).first()
-        user_pw_hash = Users.query.filter_by(email=form.email.data).options(load_only(password))
+        user_pw_hash = Users.query.filter_by(email=form.email.data).options(load_only(PwdHash))
         if user is not None and check_password_hash(user_pw_hash, form.password.data):
             login_user(user)
             flash("Login successful!!")
@@ -28,7 +28,7 @@ def register():
     if form.validate_on_submit():
         password_hash = generate_password_hash(form.password.data, "sha256")
         if check_password_hash(password_hash, form.password.data):
-            user = Users(Email=form.email.data, password=password_hash)
+            user = Users(email=form.email.data, PwdHash=password_hash)
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('login'))
