@@ -3,9 +3,10 @@ from flask import render_template, url_for, request, redirect, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from Prototype import app
 from Prototype.forms import loginForm, registrationForm
+from Prototype.models import Users, PoliticalParty, Vote
 
 @app.route("/")
-@app.route("/login", methods = ['GET', 'POST'])
+@app.route("/login", methods=['GET', 'POST'])
 def login():
     form = loginForm()
     if request.method == 'POST':
@@ -18,7 +19,8 @@ def login():
         else:
             flash("Invalid username or password!")
             return redirect(url_for('login'))
-    return render_template('login.html', title="Online Vote - Login",form=form)
+    elif request.method == 'GET':
+        return render_template('login.html', title="Online Vote - Login",form=form)
 
 @app.route("/register", methods=['GET','POST'])
 def register():
