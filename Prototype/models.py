@@ -1,5 +1,5 @@
 from Prototype import db, login_manager
-from sqlachemy.dialects.mysql import TINYINT
+from sqlalchemy.dialects.mysql import TINYINT
 
 class PoliticalParty(db.Model):
 	UId = db.Column(db.CHAR(38), unique = True, primary_key = True)
@@ -10,11 +10,11 @@ class PoliticalParty(db.Model):
 
 class Users(db.Model):
 	UId = db.Column(db.CHAR(38), unique = True, primary_key = True)
-	EligibleToVote = db.Column(db.TINYINT(1), default = 0)
+	EligibleToVote = db.Column(TINYINT(1), default = 0)
 	Email = db.Column(db.String(255), unique = True, nullable = False)
 	PwdHash = db.Column(db.String(255), nullable = False)
-	HasVoted = db.Column(db.TINYINT(1), default = 0)
-	IsOfficial = db.Column(db.TINYINT(1), default = 0)
+	HasVoted = db.Column(TINYINT(1), default = 0)
+	IsOfficial = db.Column(TINYINT(1), default = 0)
 	Votes = db.relationship('Vote', backref='user', lazy = True)
 
 	def __repr__(self):
@@ -23,7 +23,7 @@ class Users(db.Model):
 class Vote(db.Model):
 	VoteId = db.Column(db.CHAR(38), unique = True, primary_key = True)
 	PoliticalPartyID = db.Column(db.CHAR(38), db.ForeignKey('party.UId'), nullable = False)
-	VoteStatus = db.Column(db.TINYINT(1), default = 0)
+	VoteStatus = db.Column(TINYINT(1), default = 0)
 	VoteTimestamp = db.Column(db.DATETIME(), nullable = False)
 
 	def __repr__(self):
