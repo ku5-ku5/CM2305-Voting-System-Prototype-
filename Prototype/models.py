@@ -1,4 +1,5 @@
 from Prototype import db, login_manager
+from sqlachemy.dialects.mysql import TINYINT
 
 class PoliticalParty(db.Model):
 	UId = db.Column(db.CHAR(38), unique = True, primary_key = True)
