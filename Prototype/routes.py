@@ -1,7 +1,8 @@
 import os
 from flask import render_template, url_for, request, redirect, flash
+from sqlalchemy.orm import load_only
 from werkzeug.security import generate_password_hash, check_password_hash
-from Prototype import app
+from Prototype import app, db
 from Prototype.forms import loginForm, registrationForm
 from Prototype.models import Users, PoliticalParty, Vote
 
@@ -11,7 +12,7 @@ def login():
     form = loginForm()
     if request.method == 'POST':
         user = Users.query.filter_by(email=form.email.data).first()
-        user_pw_hash = Users.query.filter_by(email=form.email.data).options(load_only(PwdHash))
+        user_pw_hash = Users.query.filter_by(email=form.email.data).options(load_only("PwdHash"))
         if user is not None and check_password_hash(user_pw_hash, form.password.data):
             login_user(user)
             flash("Login successful!!")
@@ -19,8 +20,7 @@ def login():
         else:
             flash("Invalid username or password!")
             return redirect(url_for('login'))
-    elif request.method == 'GET':
-        return render_template('login.html', title="Online Vote - Login",form=form)
+    return render_template('login.html', title="Online Vote - Login",form=form)
 
 @app.route("/register", methods=['GET','POST'])
 def register():

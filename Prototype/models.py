@@ -9,7 +9,7 @@ class PoliticalParty(db.Model):
 		return f"PoliticalParty('{self.Name}')"
 
 class Users(db.Model):
-	UId = db.Column(db.CHAR(38), unique = True, primary_key = True)
+	UserUId = db.Column(db.CHAR(38), unique = True, primary_key = True)
 	EligibleToVote = db.Column(TINYINT(1), default = 0)
 	email = db.Column(db.String(255), unique = True, nullable = False)
 	PwdHash = db.Column(db.String(255), nullable = False)
