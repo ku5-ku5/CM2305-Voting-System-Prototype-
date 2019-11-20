@@ -1,15 +1,16 @@
 from Prototype import db, login_manager
 from sqlalchemy.dialects.mysql import TINYINT
+from sqlalchemy.dialects.postgresql import UUID
 
 class PoliticalParty(db.Model):
-	UId = db.Column(db.CHAR(38), unique = True, primary_key = True)
+	UId = db.Column(UUID(as_uuid = True), unique = True, primary_key = True)
 	Name = db.Column(db.String(255), nullable = False)
 
 	def __repr__(self):
 		return f"PoliticalParty('{self.Name}')"
 
 class Users(db.Model):
-	UserUId = db.Column(db.CHAR(38), unique = True, primary_key = True)
+	UserUId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True)
 	EligibleToVote = db.Column(TINYINT(1), default = 0)
 	email = db.Column(db.String(255), unique = True, nullable = False)
 	PwdHash = db.Column(db.String(255), nullable = False)
@@ -20,7 +21,7 @@ class Users(db.Model):
 		return f"User('{self.EligibleToVote}', '{self.Email}', '{self.PwdHash}', '{self.IsOfficial}')"
 
 class Vote(db.Model):
-	VoteId = db.Column(db.CHAR(38), unique = True, primary_key = True)
+	VoteId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True)
 	PoliticalPartyID = db.Column(db.CHAR(38), db.ForeignKey('party.UId'), nullable = False)
 	VoteStatus = db.Column(TINYINT(1), default = 0)
 	VoteTimestamp = db.Column(db.DATETIME(), nullable = False)
