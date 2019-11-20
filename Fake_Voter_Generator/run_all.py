@@ -4,7 +4,7 @@ import random
 import datetime
 import time
 
-pwd = "INSERT_PASSWORD"
+pwd = 'INSERT_PASSWORD'
 
 try:
     votedb = mysql.connector.connect(
@@ -21,8 +21,11 @@ except mysql.connector.Error as er:
 def create_database():
 
     cursor = votedb.cursor()
-    cursor.execute("CREATE DATABASE votedb")
-    print("VoteDB created")
+    try:
+        cursor.execute("CREATE DATABASE votedb")
+        print("VoteDB created")
+    except mysql.connector.Error as er:
+        print(er)
 
     cursor.close()
 
@@ -46,14 +49,14 @@ def create_tables():
         table_cursor.execute("USE votedb;")
 
         try:
-            table_cursor.execute("CREATE TABLE `PoliticalParty` ( UId CHAR(38) NOT NULL UNIQUE,Name VARCHAR(255) NOT NULL,PRIMARY KEY (UId));")
+            table_cursor.execute("CREATE TABLE `Political_Party` ( UId CHAR(38) NOT NULL UNIQUE,Name VARCHAR(255) NOT NULL,PRIMARY KEY (UId));")
             print("PoliticalParty table created")
         except mysql.connector.Error as err:
             print("Failed to create the PoliticalParty table")
             print(err)
 
         try:
-            table_cursor.execute("CREATE TABLE `Vote` (VoteId CHAR(38) NOT NULL UNIQUE,PoliticalPartyID CHAR(38) NOT NULL,/**VoteStatus TINYINT(1) DEFAULT 0,**/VoteTimestamp DATETIME NOT NULL,PRIMARY KEY (VoteId),FOREIGN KEY (PoliticalPartyID) REFERENCES PoliticalParty(UId));")
+            table_cursor.execute("CREATE TABLE `Vote` (VoteId CHAR(38) NOT NULL UNIQUE,PoliticalPartyID CHAR(38) NOT NULL,/**VoteStatus TINYINT(1) DEFAULT 0,**/VoteTimestamp DATETIME NOT NULL,PRIMARY KEY (VoteId),FOREIGN KEY (PoliticalPartyID) REFERENCES Political_Party(UId));")
             print("Vote table created")
         except mysql.connector.Error as err:
             print("Failed to create the Vote table")
@@ -69,50 +72,50 @@ def create_tables():
     else:
         print("Database not created :/ Script stopped")
 
-    table_cursor.close()
+    #table_cursor.close()
     dbcursor.close()
 
 def parties():
     party_cursor = votedb.cursor()
 
     try:
-        party_cursor.execute("INSERT INTO `votedb`.`politicalparty`(`UId`,`Name`)VALUES('c5a60d73-ffe0-11e9-8f05-1831bf97a796','Labour');")
+        party_cursor.execute("INSERT INTO `votedb`.`political_party`(`UId`,`Name`)VALUES('c5a60d73-ffe0-11e9-8f05-1831bf97a796','Labour');")
         print("Labour party added")
     except mysql.connector.Error as err:
         print(err)
 
     try:
-        party_cursor.execute("INSERT INTO `votedb`.`politicalparty`(`UId`,`Name`)VALUES('c5a7721d-ffe0-11e9-8f05-1831bf97a796','Conservative');")
+        party_cursor.execute("INSERT INTO `votedb`.`political_party`(`UId`,`Name`)VALUES('c5a7721d-ffe0-11e9-8f05-1831bf97a796','Conservative');")
         print("Conservatives added")
     except mysql.connector.Error as err:
         print(err)
 
     try:
-        party_cursor.execute("INSERT INTO `votedb`.`politicalparty`(`UId`,`Name`)VALUES('29478d29-0489-11ea-be81-1831bf97a796','DUP');")
+        party_cursor.execute("INSERT INTO `votedb`.`political_party`(`UId`,`Name`)VALUES('29478d29-0489-11ea-be81-1831bf97a796','DUP');")
         print("DUP added")
     except mysql.connector.Error as err:
         print(err)
 
     try:
-        party_cursor.execute("INSERT INTO `votedb`.`politicalparty`(`UId`,`Name`)VALUES('2948f383-0489-11ea-be81-1831bf97a796','SNP');")
+        party_cursor.execute("INSERT INTO `votedb`.`political_party`(`UId`,`Name`)VALUES('2948f383-0489-11ea-be81-1831bf97a796','SNP');")
         print("SNP added")
     except mysql.connector.Error as err:
         print(err)
 
     try:
-        party_cursor.execute("INSERT INTO `votedb`.`politicalparty`(`UId`,`Name`)VALUES('294980dc-0489-11ea-be81-1831bf97a796','Plaid Cymru');")
+        party_cursor.execute("INSERT INTO `votedb`.`political_party`(`UId`,`Name`)VALUES('294980dc-0489-11ea-be81-1831bf97a796','Plaid Cymru');")
         print("Plaid Cymru added")
     except mysql.connector.Error as err:
         print(err)
 
     try:
-        party_cursor.execute("INSERT INTO `votedb`.`politicalparty`(`UId`,`Name`)VALUES('c5aae837-ffe0-11e9-8f05-1831bf97a796','Green Party');")
+        party_cursor.execute("INSERT INTO `votedb`.`political_party`(`UId`,`Name`)VALUES('c5aae837-ffe0-11e9-8f05-1831bf97a796','Green Party');")
         print("Green Party added")
     except mysql.connector.Error as err:
         print(err)
 
     try:
-        party_cursor.execute("INSERT INTO `votedb`.`politicalparty`(`UId`,`Name`)VALUES('c5a8f70d-ffe0-11e9-8f05-1831bf97a796','UKIP');")
+        party_cursor.execute("INSERT INTO `votedb`.`political_party`(`UId`,`Name`)VALUES('c5a8f70d-ffe0-11e9-8f05-1831bf97a796','UKIP');")
         print("UKIP added")
     except mysql.connector.Error as err:
         print(err)

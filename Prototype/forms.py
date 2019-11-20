@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, RadioField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, Regexp
 
 class registrationForm(FlaskForm):
@@ -21,4 +21,6 @@ class loginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
 
-#class SubmitVoteForm(FlaskForm):
+class SubmitVoteForm(FlaskForm):
+    PoliticalParty = RadioField('Label')
+    submit = SubmitField('Submit Vote')

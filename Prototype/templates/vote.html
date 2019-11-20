@@ -3,8 +3,9 @@
 	<!-- code to read in and display the candidates you can vote for -->
   <div class="vote-container">
     <form class="" action="index.html" method="post">
+      {{ form.hidden_tag() }}
       {% for Name in politicalparty| sort(attribute='Name') %}
-      <div class="vote">
+      <div class="voteItem">
           <input type="radio" name="" value="{{ politicalparty.name }}">{{ politicalparty.name }}<<br>
       </div>
       {% endfor %}
