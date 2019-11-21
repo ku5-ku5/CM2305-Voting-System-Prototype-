@@ -7,6 +7,10 @@ from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
 from Prototype.models import Users, PoliticalParty, Vote
 
 @app.route("/")
+@app.route("/index", methods=['GET', 'POST'])
+def index():
+    return render_template('index.html', title="Online Vote System")
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form = loginForm()

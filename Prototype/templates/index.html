@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="indexContent">
+    <div class="introText">
+      <p>For the gorup 16 project we were tasked with creating a <br>
+        secure online voting system with the scope for it to be <br>
+        used in a potential general election.
+      </p>
+    </div>
+    <div class="indexBoxes">
+      <div class="loginBox">
+        <a href="{{ url_for('login') }}"><p>Login</p></a>
+      </div>
+      <div class="registerBox">
+        <a href="{{ url_for('login') }}"><p>Register<br>to vote</p></a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
