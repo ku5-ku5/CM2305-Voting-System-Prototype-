@@ -187,7 +187,7 @@ def fake_vote():
 #The below will run the functions
 
 #Create statements
-#create_database()
+create_database()
 create_tables()
 #Insert statements that populate the data
 parties()

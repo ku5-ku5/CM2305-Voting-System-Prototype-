@@ -21,6 +21,13 @@ def login():
             login_user(user)
             flash("Login successful!!")
             return redirect(url_for('vote'))
+            #userStatus = Users.query.filter_by(email=form.email.data).options(load_only(""))
+            #if userStatus == 0:
+                #return redirect(url_for('vote'))
+            #elif userStatus == 1:
+                #return redirect(url_for('official'))
+            #elif userStatus == 2:
+                #return redirect(url_for('admin'))
         else:
             flash("Invalid username or password!")
             return redirect(url_for('login'))
@@ -49,3 +56,25 @@ def vote():
         flash("Thank you for voting " + form.chosenParty.data)
         return redirect(url_for('login'))
     return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
+
+"""
+@app.route("/official", methods=['GET', 'POST'])
+def official():
+    if user.IsOfficial == 1:
+        return render_template('official.html', title="Officials Page")
+    else:
+        return redirect(url_for('unauthorised'))
+"""
+
+"""
+@app.route("/admin", methods=['GET', 'POST'])
+def admin():
+    if user.IsOfficial == 2:
+        return render_template('admin.html', title="Admin Page")
+    else:
+        return redirect(url_for('unauthorised'))
+
+@app.route("/unauthorised", methods=['GET','POST'])
+def unauthorised():
+    return render_template('unauthorised.html', title="Unauthorised")
+"""
