@@ -3,7 +3,7 @@ from flask import render_template, url_for, request, redirect, flash
 from sqlalchemy.orm import load_only
 from werkzeug.security import generate_password_hash, check_password_hash
 from Prototype import app, db
-from Prototype.forms import loginForm, registrationForm
+from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
 from Prototype.models import Users, PoliticalParty, Vote
 
 @app.route("/")
@@ -38,5 +38,10 @@ def register():
 
 @app.route("/vote", methods=['GET','POST'])
 def vote():
+    form = SubmitVoteForm()
+    form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
     parties = PoliticalParty.query.all()
-    return render_template('vote.html', politicalparty=parties, title="Voting Page")
+    if request.method == 'POST':
+        flash("Thank you for voting")
+        return redirect(url_for('login'))
+    return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)

@@ -22,5 +22,5 @@ class loginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class SubmitVoteForm(FlaskForm):
-    PoliticalParty = RadioField('Label')
+    chosenParty = RadioField('Label')
     submit = SubmitField('Submit Vote')
