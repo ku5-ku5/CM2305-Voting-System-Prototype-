@@ -42,6 +42,6 @@ def vote():
     form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
     parties = PoliticalParty.query.all()
     if request.method == 'POST':
-        flash("Thank you for voting")
+        flash("Thank you for voting " + form.chosenParty.data)
         return redirect(url_for('login'))
     return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
