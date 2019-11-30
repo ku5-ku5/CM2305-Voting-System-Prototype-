@@ -2,38 +2,45 @@
 {% block content %}
 <form method="POST" action="">
   {{ form.hidden_tag() }}
-  <section class="">
+  <section class=""> <!-- Register First Name -->
     {{ form.firstName.label }} {{ form.firstName}}
     {% for error in form.firstName.errors %}
       <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </section>
-  <section class="">
+  <br> <!-- Adding Line Breaks so the form is easier to read -->
+  <section class=""> <!-- Surname Field -->
     {{ form.surname.label }} {{ form.surname}}
     {% for error in form.surname.errors %}
       <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </section>
-  <section class="">
+  <br>
+  <section class=""> <!-- Email Field -->
     {{ form.email.label }} {{ form.email}}
     {% for error in form.email.errors %}
       <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </section>
-  <section class="">
-    {{ form.password.label }} {{ form.password}}
+  <br>
+  <section class=""> <!-- Password Field -->
+    {{ form.password.label }} {{ form.password}} 
     {% for error in form.password.errors %}
       <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </section>
-  <section class="">
+  <br>
+  <section class=""> <!-- Verify Password Field -->
     {{ form.passwordVerify.label }} {{ form.passwordVerify}}
     {% for error in form.passwordVerify.errors %}
       <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </section>
+  <br>
   <section class="">
     {{ form.submit() }}
   </section>
 </form>
+
+<a href="{{ url_for('index') }}"><p>Back to Home</p>
 {% endblock content %}

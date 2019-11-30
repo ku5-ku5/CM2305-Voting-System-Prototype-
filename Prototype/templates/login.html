@@ -8,15 +8,19 @@
       <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </section>
+  <br>
   <section class="">
     {{ form.password.label }} {{ form.password }}
     {% for error in form.password.errors %}
       <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </section>
-  <section class="">
+  <br>
+  <section class=""> 
     {{ form.submit() }}
   </section>
 </form>
+
+<a href="{{ url_for('index') }}"><p>Back to Home</p>
 
 {% endblock content %}
