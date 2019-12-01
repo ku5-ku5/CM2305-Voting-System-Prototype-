@@ -4,7 +4,7 @@ from sqlalchemy.orm import load_only
 from werkzeug.security import generate_password_hash, check_password_hash
 from Prototype import app, db
 from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
-from Prototype.models import Users, PoliticalParty, Vote
+from Prototype.models import Users, PoliticalParty, Vote, Officials
 
 @app.route("/")
 @app.route("/index", methods=['GET', 'POST'])

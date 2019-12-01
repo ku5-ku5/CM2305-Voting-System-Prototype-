@@ -75,10 +75,10 @@ def create_tables():
             print("Failed to create officials table")
             print(err)
 
+        table_cursor.close()
     else:
         print("Database not created :/ Script stopped")
 
-    #table_cursor.close()
     dbcursor.close()
 
 def parties():
