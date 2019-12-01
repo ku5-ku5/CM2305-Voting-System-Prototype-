@@ -73,8 +73,8 @@ def admin():
         return render_template('admin.html', title="Admin Page")
     else:
         return redirect(url_for('unauthorised'))
-
+"""
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():
     return render_template('unauthorised.html', title="Unauthorised")
-"""
+
