@@ -23,6 +23,7 @@
     <span title="This is a basic anti-spam bot feature. The bot will see the field name is called 'useremail' and therefore will fill this in with an email, which will then cause the login not to proceed as the field needs to be blank."> {{ form.useremail.label }} </span>
     <span title="This is a basic anti-spam bot feature. The bot will see the field name is called 'useremail' and therefore will fill this in with an email, which will then cause the login not to proceed as the field needs to be blank.">{{ form.useremail}}</span>
     {% for error in form.useremail.errors %}
+    <!-- Look at making this hidden potentially? -->
     <span style="color: blue;">[{{ error }}]</span>
     {% endfor %}
   <br>
@@ -31,6 +32,9 @@
     {{ form.submit() }}
   </section>
 </form>
+<center><button> <a class="" href="/admin">Admin Login</a></button></center>
+<br><br>
+<center><button> <a class="" href="/official">Official Login</a></button></center>
 <br>
 <h1> Hover over for more information</h1>
 
