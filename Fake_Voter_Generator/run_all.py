@@ -63,10 +63,16 @@ def create_tables():
             print(err)
 
         try:
-            table_cursor.execute("CREATE TABLE `Users` (UserUId CHAR(38) NOT NULL UNIQUE,EligibleToVote TINYINT(1) DEFAULT 0,Email VARCHAR(255) NOT NULL UNIQUE,PwdHash VARCHAR(255),HasVoted TINYINT(1) DEFAULT 0,IsOfficial TINYINT(1) DEFAULT 0,PRIMARY KEY (UserUId));")
+            table_cursor.execute("CREATE TABLE `Users` (UserUId CHAR(38) NOT NULL UNIQUE,EligibleToVote TINYINT(1) DEFAULT 0,Email VARCHAR(255) NOT NULL UNIQUE,PwdHash VARCHAR(255),HasVoted TINYINT(1) DEFAULT 0,PRIMARY KEY (UserUId));")
             print("Users table created")
         except mysql.connector.Error as err:
             print("Failed to create users table")
+            print(err)
+
+        try:
+            table_cursor.execute("CREATE TABLE `Officials` (OfficialUId CHAR(38) NOT NULL UNIQUE,FirstName VARCHAR(50) NOT NULL, Surname VARCHAR(50) NOT NULL,Email VARCHAR(255) NOT NULL UNIQUE,PwdHash VARCHAR(255),IsAdmin TINYINT(1) DEFAULT 0,PRIMARY KEY (OfficialUId));")
+        except mysql.connector.Error as err:
+            print("Failed to create officials table")
             print(err)
 
     else:
