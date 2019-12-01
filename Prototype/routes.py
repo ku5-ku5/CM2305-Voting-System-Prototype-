@@ -21,13 +21,6 @@ def login():
             login_user(user)
             flash("Login successful!!")
             return redirect(url_for('vote'))
-            #userStatus = Users.query.filter_by(email=form.email.data).options(load_only(""))
-            #if userStatus == 0:
-                #return redirect(url_for('vote'))
-            #elif userStatus == 1:
-                #return redirect(url_for('official'))
-            #elif userStatus == 2:
-                #return redirect(url_for('admin'))
         else:
             flash("Invalid username or password!")
             return redirect(url_for('login'))
@@ -69,10 +62,18 @@ def official():
 """
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
-    if user.IsOfficial == 2:
-        return render_template('admin.html', title="Admin Page")
-    else:
-        return redirect(url_for('unauthorised'))
+        form = loginForm()
+        if request.method == 'POST':
+            user = Users.query.filter_by(email=form.email.data).first()
+            user_pw_hash = Users.query.filter_by(email=form.email.data).options(load_only("PwdHash"))
+            if user is not None and check_password_hash(user_pw_hash, form.password.data):
+                login_user(user)
+                flash("Login successful!!")
+                return redirect(url_for('vote'))
+            else:
+                flash("Invalid username or password!")
+                return redirect(url_for('login'))
+        return render_template('adminLogin.html', title="Online Vote - Login",form=form)
 
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():

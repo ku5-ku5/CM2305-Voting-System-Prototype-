@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1> Admin/Officials Login Page: </h1>
+<form action="" method="POST">
+  {{ form.csrf_token }}
+  <br><br>
+  <section class="">
+    {{ form.email.label }} {{ form.email }}
+    {% for error in form.email.errors %}
+      <span style="color: blue;">[{{ error }}]</span>
+    {% endfor %}
+  </section>
+  <br>
+  <section class="">
+    {{ form.password.label }} {{ form.password }}
+    {% for error in form.password.errors %}
+      <span style="color: blue;">[{{ error }}]</span>
+    {% endfor %}
+  </section>
+  <br>
+  <div class="">
+    <span title="This is a basic anti-spam bot feature. The bot will see the field name is called 'useremail' and therefore will fill this in with an email, which will then cause the login not to proceed as the field needs to be blank."> {{ form.useremail.label }} </span>
+    <span title="This is a basic anti-spam bot feature. The bot will see the field name is called 'useremail' and therefore will fill this in with an email, which will then cause the login not to proceed as the field needs to be blank.">{{ form.useremail}}</span>
+    {% for error in form.useremail.errors %}
+    <!-- Look at making this hidden potentially? -->
+    <span style="color: blue;">[{{ error }}]</span>
+    {% endfor %}
+  <br>
+  <br>
+  <section class="">
+    {{ form.submit() }}
+  </section>
+</form>
+{% endblock content %}
