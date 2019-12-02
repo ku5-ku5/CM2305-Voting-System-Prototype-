@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-<br>
-<h1> Login: </h1>
+<h1> Admin/Officials Login Page: </h1>
 <form action="" method="POST">
   {{ form.csrf_token }}
   <br><br>
@@ -32,10 +31,4 @@
     {{ form.submit() }}
   </section>
 </form>
-<center><button> <a class="" href="/admin">Admin Login</a></button></center>
-<br><br>
-<center><button> <a class="" href="/official">Official Login</a></button></center>
-<br>
-<h1> Hover over for more information</h1>
-
 {% endblock content %}

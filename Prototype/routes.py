@@ -56,7 +56,7 @@ def admin():
     if request.method == 'POST':
         admin = Officials.query.filter_by(email=form.email.data).first()
         official_pw_hash = Officials.query.filter_by(email=form.email.data).options(load_only("PwdHash"))
-        if user is not None and check_password_hash(official_pw_hash, form.password.data):
+        if admin is not None and check_password_hash(official_pw_hash, form.password.data):
             login_user(admin)
             flash("Login successful!!")
             return redirect(url_for('adminHome'))

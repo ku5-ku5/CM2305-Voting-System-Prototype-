@@ -1,39 +1,49 @@
 {% extends "layout.html" %}
 {% block content %}
+<br>
+<h1> Register: </h1>
+<br>
 <form method="POST" action="">
   {{ form.hidden_tag() }}
   <section class="">
-    {{ form.firstName.label }} {{ form.firstName}}
+   <span title="Please enter First Name">  {{ form.firstName.label }}:   {{ form.firstName}} </span>
     {% for error in form.firstName.errors %}
-      <span style="color: red;">[{{ error }}]</span>
+      <span style="color: green;">[{{ error }}]</span>
     {% endfor %}
   </section>
+  <br>
   <section class="">
-    {{ form.surname.label }} {{ form.surname}}
+  <span title="Please enter Surname"> {{ form.surname.label }}:    {{ form.surname}}</span>
     {% for error in form.surname.errors %}
-      <span style="color: red;">[{{ error }}]</span>
+      <span style="color: green;">[{{ error }}]</span>
     {% endfor %}
   </section>
+  <br>
   <section class="">
-    {{ form.email.label }} {{ form.email}}
+  <span title="Please enter your Email"> {{ form.email.label }}:     {{ form.email}}</span>
     {% for error in form.email.errors %}
-      <span style="color: red;">[{{ error }}]</span>
+      <span style="color: green;">[{{ error }}]</span>
     {% endfor %}
   </section>
+  <br>
   <section class="">
-    {{ form.password.label }} {{ form.password}}
+  <span title="Please enter a password that is (insert the requirements here)">  {{ form.password.label }}:     {{ form.password}}</span>
     {% for error in form.password.errors %}
-      <span style="color: red;">[{{ error }}]</span>
+      <span style="color: green;">[{{ error }}]</span>
     {% endfor %}
   </section>
+  <br>
   <section class="">
-    {{ form.passwordVerify.label }} {{ form.passwordVerify}}
+  <span title="Please re-enter the password">  {{ form.passwordVerify.label }}:     {{ form.passwordVerify}}</span>
     {% for error in form.passwordVerify.errors %}
-      <span style="color: red;">[{{ error }}]</span>
+      <span style="color: green;">[{{ error }}]</span>
     {% endfor %}
   </section>
+  <br>
   <section class="">
     {{ form.submit() }}
   </section>
 </form>
+<center><button><a class="" href="{{ url_for('login') }}">Or Login if already registered</a></button></center>
+<h1> Need Help? Hover your mouse over the text box </h1>
 {% endblock content %}

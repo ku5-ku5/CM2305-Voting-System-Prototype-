@@ -2,17 +2,22 @@
 {% block content %}
   <div class="indexContent">
     <div class="introText">
-      <p>For the gorup 16 project we were tasked with creating a <br>
+      <p><center>For the group 16 project we were tasked with creating a <br>
         secure online voting system with the scope for it to be <br>
-        used in a potential general election.
+        used in a potential general election.</center>
       </p>
     </div>
     <div class="indexBoxes">
       <div class="loginBox">
-        <a href="{{ url_for('login') }}"><p>Login</p></a>
+        <center><button><a class="" href="{{ url_for('login') }}">Login</a></button></center>
       </div>
+      <br>
+      <center><button> <a class="" href="/admin">Admin Login</a></button></center>
+      <br>
+      <center><button> <a class="" href="/official">Official Login</a></button></center>
+      <br>
       <div class="registerBox">
-        <a href="{{ url_for('register') }}"><p>Register<br>to vote</p></a>
+        <center><button><a class="" href="{{ url_for('register') }}">Register</a></button></center>
       </div>
     </div>
   </div>
