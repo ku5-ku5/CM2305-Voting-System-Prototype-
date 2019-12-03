@@ -190,6 +190,53 @@ def fake_vote():
         #time.sleep(5)
     cursor.close()
 
+def add_admin():
+    cursor = votedb.cursor()
+
+    try:
+        cursor.execute("INSERT INTO `votedb`.`officials` (`OfficialUId`,`FirstName`,`Surname`, `email`, `PwdHash`)VALUES (UUID(), 'Rhys', 'Connor', 'rhys@mail.net', 'e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a');")
+        print('Rhys admin added')
+    except mysql.connector.Error as err:
+        print(err)
+
+    try:
+        cursor.execute("INSERT INTO `votedb`.`officials` (`OfficialUId`,`FirstName`,`Surname`, `email`, `PwdHash`)VALUES (UUID(), 'Jake', 'Casey', 'jakec@mail.net', 'e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a');")
+        print('Jake C admin added')
+    except mysql.connector.Error as err:
+        print(err)
+
+    try:
+        cursor.execute("INSERT INTO `votedb`.`officials` (`OfficialUId`,`FirstName`,`Surname`, `email`, `PwdHash`)VALUES (UUID(), 'Martha', 'Heron', 'martha@mail.net', 'e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a');")
+        print('Martha admin added')
+    except mysql.connector.Error as err:
+        print(err)
+
+    try:
+        cursor.execute("INSERT INTO `votedb`.`officials` (`OfficialUId`,`FirstName`,`Surname`, `email`, `PwdHash`)VALUES (UUID(), 'Sophie', 'Hunt', 'sophie@mail.net', 'e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a');")
+        print('Sophie admin added')
+    except mysql.connector.Error as err:
+        print(err)
+
+    try:
+        cursor.execute("INSERT INTO `votedb`.`officials` (`OfficialUId`,`FirstName`,`Surname`, `email`, `PwdHash`)VALUES (UUID(), 'Markus', 'Hutchby', 'markus@mail.net', 'e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a');")
+        print('Markus admin added')
+    except mysql.connector.Error as err:
+        print(err)
+
+    try:
+        cursor.execute("INSERT INTO `votedb`.`officials` (`OfficialUId`,`FirstName`,`Surname`, `email`, `PwdHash`)VALUES (UUID(), 'Tomos', 'Williams', 'tomos@mail.net', 'e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a');")
+        print('Tomos admin added')
+    except mysql.connector.Error as err:
+        print(err)
+
+    try:
+        cursor.execute("INSERT INTO `votedb`.`officials` (`OfficialUId`,`FirstName`,`Surname`, `email`, `PwdHash`)VALUES (UUID(), 'Jake', 'Ziegler', 'jakez@mail.net', 'e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a');")
+        print('Jake Z admin added')
+    except mysql.connector.Error as err:
+        print(err)
+
+    cursor.close()
+
 #The below will run the functions
 
 #Create statements
@@ -199,5 +246,6 @@ create_tables()
 parties()
 fake_voters()
 fake_vote()
+add_admin()
 
 votedb.close()

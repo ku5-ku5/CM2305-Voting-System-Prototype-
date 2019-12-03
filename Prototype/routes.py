@@ -2,9 +2,11 @@ import os
 from flask import render_template, url_for, request, redirect, flash
 from sqlalchemy.orm import load_only
 from werkzeug.security import generate_password_hash, check_password_hash
+import hashlib
 from Prototype import app, db
 from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
 from Prototype.models import Users, PoliticalParty, Vote, Officials
+from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
 @app.route("/index", methods=['GET', 'POST'])
@@ -16,8 +18,7 @@ def login():
     form = loginForm()
     if request.method == 'POST':
         user = Users.query.filter_by(email=form.email.data).first()
-        user_pw_hash = Users.query.filter_by(email=form.email.data).options(load_only("PwdHash"))
-        if user is not None and check_password_hash(user_pw_hash, form.password.data):
+        if user is not None and user.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()):
             login_user(user)
             flash("Login successful!!")
             return redirect(url_for('vote'))
@@ -29,15 +30,15 @@ def login():
 @app.route("/register", methods=['GET','POST'])
 def register():
     form = registrationForm()
-    if form.validate_on_submit():
-        password_hash = generate_password_hash(form.password.data, "sha256")
-        if check_password_hash(password_hash, form.password.data):
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            password_hash = hashlib.sha256(form.password.data.encode()).hexdigest()
             user = Users(email=form.email.data, PwdHash=password_hash)
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('login'))
         else:
-            return flash("Password error please try again")
+            return flash("Unknown error please try again later")
     return render_template('register.html', title="Online Vote - Register",form=form)
 
 @app.route("/vote", methods=['GET','POST'])
@@ -55,8 +56,7 @@ def admin():
     form = loginForm()
     if request.method == 'POST':
         admin = Officials.query.filter_by(email=form.email.data).first()
-        official_pw_hash = Officials.query.filter_by(email=form.email.data).options(load_only("PwdHash"))
-        if admin is not None and check_password_hash(official_pw_hash, form.password.data):
+        if admin is not None and admin.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()):
             login_user(admin)
             flash("Login successful!!")
             return redirect(url_for('adminHome'))
