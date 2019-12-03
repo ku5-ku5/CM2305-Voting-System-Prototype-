@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+<section>		
+	{% if current_user.is_authenticated %}
+		<h1> Are You Ready to Cast Your Vote, {{ current_user.username }}? </h1>
+		<center><button> <a class="" href="/vote">Vote</a></button>
+		<center><button> <a class="" href="/login">Logout</a></button>
+	{% else %}
+		<h1> You must be Logged in to Vote </h1>
+		<p> Please Login or register to vote, if you are not already registered </p>
+		<center><button> <a class="" href="/login">Login</a></button>
+		<center><button> <a class="" href="https://www.gov.uk/register-to-vote">Register to Vote</a></button>
+	{% endif %}
+</section>
+{% endblock content %}
