@@ -17,9 +17,9 @@ class registrationForm(FlaskForm):
             raise ValidationError('This email is already being used.')
 
 class loginForm(FlaskForm):
+    useremail = StringField('Please Leave Blank', validators=[Regexp('^$',message="Please hover over textbox for more information")])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    useremail=StringField('Please Leave Blank', validators=[Regexp('^$',message="Please hover over textbox for more information")])
     submit = SubmitField('Login')
 
 class SubmitVoteForm(FlaskForm):

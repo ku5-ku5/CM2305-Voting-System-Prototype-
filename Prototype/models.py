@@ -39,3 +39,4 @@ class Officials(db.Model):
 
 	def __repr__(self):
 		return f"User('{self.FirstName}','{self.Surname}', '{self.Email}', '{self.PwdHash}', '{self.IsAdmin}')"
+
