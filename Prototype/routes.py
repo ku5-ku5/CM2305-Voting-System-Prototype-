@@ -68,3 +68,8 @@ def admin():
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():
     return render_template('unauthorised.html', title="Unauthorised")
+
+@app.route("/voterhome", methods=['GET', 'POST'])
+def voterhome():
+    return render_template('voterhome.html', title="Voter Homepage")
+
