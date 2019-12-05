@@ -137,7 +137,7 @@ def fake_voters():
     #adds the instance of the Faker module
     fake = Faker()
 
-    sql = "INSERT INTO `votedb`.`users` (`UserUId`,`EligibleToVote`,`Email`,`PwdHash`,`IsOfficial`,`HasVoted`)VALUES (UUID(), 0, %s, %s, 0, 0);"
+    sql = "INSERT INTO `votedb`.`users` (`UserUId`,`EligibleToVote`,`Email`,`PwdHash`,`HasVoted`)VALUES (UUID(), 0, %s, %s, 0);"
 
     emails_raw = []
 
