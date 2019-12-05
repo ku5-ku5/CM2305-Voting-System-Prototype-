@@ -2,9 +2,11 @@ import os
 from flask import render_template, url_for, request, redirect, flash
 from sqlalchemy.orm import load_only
 from werkzeug.security import generate_password_hash, check_password_hash
+import hashlib
 from Prototype import app, db
 from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
-from Prototype.models import Users, PoliticalParty, Vote
+from Prototype.models import Users, PoliticalParty, Vote, Officials
+from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
 @app.route("/index", methods=['GET', 'POST'])
@@ -16,18 +18,10 @@ def login():
     form = loginForm()
     if request.method == 'POST':
         user = Users.query.filter_by(email=form.email.data).first()
-        user_pw_hash = Users.query.filter_by(email=form.email.data).options(load_only("PwdHash"))
-        if user is not None and check_password_hash(user_pw_hash, form.password.data):
+        if user is not None and user.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()):
             login_user(user)
             flash("Login successful!!")
             return redirect(url_for('vote'))
-            #userStatus = Users.query.filter_by(email=form.email.data).options(load_only(""))
-            #if userStatus == 0:
-                #return redirect(url_for('vote'))
-            #elif userStatus == 1:
-                #return redirect(url_for('official'))
-            #elif userStatus == 2:
-                #return redirect(url_for('admin'))
         else:
             flash("Invalid username or password!")
             return redirect(url_for('login'))
@@ -36,15 +30,15 @@ def login():
 @app.route("/register", methods=['GET','POST'])
 def register():
     form = registrationForm()
-    if form.validate_on_submit():
-        password_hash = generate_password_hash(form.password.data, "sha256")
-        if check_password_hash(password_hash, form.password.data):
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            password_hash = hashlib.sha256(form.password.data.encode()).hexdigest()
             user = Users(email=form.email.data, PwdHash=password_hash)
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('login'))
         else:
-            return flash("Password error please try again")
+            return flash("Unknown error please try again later")
     return render_template('register.html', title="Online Vote - Register",form=form)
 
 @app.route("/vote", methods=['GET','POST'])
@@ -57,23 +51,19 @@ def vote():
         return redirect(url_for('login'))
     return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
 
-"""
-@app.route("/official", methods=['GET', 'POST'])
-def official():
-    if user.IsOfficial == 1:
-        return render_template('official.html', title="Officials Page")
-    else:
-        return redirect(url_for('unauthorised'))
-"""
-
-"""
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
-    if user.IsOfficial == 2:
-        return render_template('admin.html', title="Admin Page")
-    else:
-        return redirect(url_for('unauthorised'))
-"""
+    form = loginForm()
+    if request.method == 'POST':
+        admin = Officials.query.filter_by(email=form.email.data).first()
+        if admin is not None and admin.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()):
+            login_user(admin)
+            flash("Login successful!!")
+            return redirect(url_for('adminHome'))
+        else:
+            flash("Invalid username or password!")
+            return redirect(url_for('admin'))
+
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():
     return render_template('unauthorised.html', title="Unauthorised")
