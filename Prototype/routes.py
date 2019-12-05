@@ -49,6 +49,8 @@ def vote():
     if request.method == 'POST':
         flash("Thank you for voting " + form.chosenParty.data)
         return redirect(url_for('login'))
+    elif if not current_user.is_authenticated:
+        return render_template('unauthorised.html', title="Unauthorised")
     return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
 
 @app.route("/admin", methods=['GET', 'POST'])
@@ -61,6 +63,8 @@ def admin():
             login_user(admin)
             flash("Login successful!!")
             return redirect(url_for('adminHome'))
+        elif current_user is not admin:
+            return render template('unauthorised.html', title="Unauthorised")
         else:
             flash("Invalid username or password!")
             return redirect(url_for('admin'))
