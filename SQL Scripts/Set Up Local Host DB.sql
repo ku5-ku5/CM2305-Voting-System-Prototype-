@@ -28,6 +28,15 @@ CREATE TABLE Users(
   PRIMARY KEY (UserUId)
 );
 
+CREATE TABLE officials (
+  OfficialUId CHAR(38) NOT NULL UNIQUE,
+  FirstName Varchar(255),
+  Email VARCHAR(255) NOT NULL UNIQUE,
+  PwdHash VARCHAR(255),
+  LastName varCHAR(255),
+  IsAdmin TINYINT(1) DEFAULT 0,
+  PRIMARY KEY (OfficialUId));
+
 
 INSERT INTO `votedb`.`politicalparty`
 (`UId`,
