@@ -80,4 +80,3 @@ def voterhome():
 @app.route("/results", methods=['GET', 'POST'])
 def results():
     return render_template('results.html', title="Results")
-
