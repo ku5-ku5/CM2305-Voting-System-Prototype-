@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+<section>
+	{% if current_user.is_authenticated %}
+		<h1> Election Results </h1>
+		<table>
+			<tr>
+				<th> Candidate Name </th>
+				<th> Party </th>
+				<th> Number of Votes </th>
+			</tr>
+			<!--{% for ... %} -->
+			<tr>
+				
+			</tr>
+			<!--{% endfor %} -->
+		</table>
+	{% else %}
+
+
+	{% endif %}
+
+</section>
+{% endblock content %}
