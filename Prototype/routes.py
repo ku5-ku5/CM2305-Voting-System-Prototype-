@@ -11,6 +11,8 @@ from Prototype.models import Users, PoliticalParty, Vote, Officials
 def index():
     return render_template('index.html', title="Online Vote System")
 
+
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     
@@ -80,3 +82,7 @@ def voterhome():
 @app.route("/results", methods=['GET', 'POST'])
 def results():
     return render_template('results.html', title="Results")
+
+@app.route("/adminHome", methods=['GET', 'POST'])
+def adminHome():
+    return render_template('adminHome.html', title="Admin/Officials")
