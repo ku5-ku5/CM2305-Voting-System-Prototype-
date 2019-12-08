@@ -3,6 +3,8 @@
 <section>		
 	{% if current_user.is_authenticated %}
 		<h1> Are You Ready to Cast Your Vote, {{ current_user.username }}? </h1>
+		<!-- will display the end date of the election , or countdown time left to vote- also name of the election /voting area ? 
+		<h1> You are voting in the {{curent_user.constituency}}. The deadline to vote is {{deadline inserted here from database}} </h1> -->
 		<center><button> <a class="" href="/vote">Vote</a></button>
 		<br>
 		<center><button> <a class="" href="/login">Logout</a></button>
