@@ -21,7 +21,7 @@ def login():
         if user is not None and check_password_hash(user_pw_hash, form.password.data):
             login_user(user)
             flash("Login successful!")
-            return redirect(url_for('vote'))
+            return redirect(url_for('voterhome'))
         else:
             flash("Invalid username or password!")
             return redirect(url_for('login'))
@@ -62,12 +62,12 @@ def admin():
         if admin is not None and check_password_hash(official_pw_hash, form.password.data):
             login_user(admin)
             flash("Login successful!!")
-            return redirect(url_for('adminHome'))
+            return redirect(url_for('adminHome' ))
         elif current_user is not admin:
             return render_template('unauthorised.html', title="Unauthorised")
         else:
             flash("Invalid username or password!")
-            return redirect(url_for('admin'))
+            return redirect(url_for('adminLogin'))
 
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():
