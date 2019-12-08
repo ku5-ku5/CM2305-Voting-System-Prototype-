@@ -4,9 +4,14 @@ body {
 	margin: 0;
 }
 
+p { font-size:5vw;
+
+}
+
 h1 {
 	text-align: center;
 	font-variant: small-caps;
+	
 }
 
 #content {
