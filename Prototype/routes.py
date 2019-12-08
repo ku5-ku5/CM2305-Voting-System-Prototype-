@@ -79,4 +79,17 @@ def voterhome():
 
 @app.route("/results", methods=['GET', 'POST'])
 def results():
+    #votes = vote.query.all()
+
+    #code to calculate results of election
+    
     return render_template('results.html', title="Results")
+
+@app.route("/adminHome", methods=['GET', 'POST'])
+def adminHome():
+    #admins = Officials.query.all()
+
+    #need to do code to determine the usertype.
+
+    return render_template('adminHome.html', title="Admin Homepage", usertype="admin")
+

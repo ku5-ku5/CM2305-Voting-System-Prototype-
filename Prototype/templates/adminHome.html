@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+<section>
+	<h1> Admin Homepage </h1>
+	{% if current_user.is_authenticated %}
+		<meta http-equiv="Refresh" content="0; url=/unauthorised" />
+	{% else %}
+		{% if (usertype == "official") or (usertype == "admin") %}
+			<center><button> <a class="" href="/results">View Election Results</a></button>
+			{% if usertype == "admin" %}
+				<center><button> <a class="" href="">Create Election</a></button>
+			{% endif %}
+		{% endif %}
+	{% endif %}
+</section>
+{% endblock content %}
