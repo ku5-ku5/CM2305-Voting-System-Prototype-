@@ -43,13 +43,20 @@ def register():
 
 @app.route("/vote", methods=['GET','POST'])
 def vote():
-    form = SubmitVoteForm()
-    form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
-    parties = PoliticalParty.query.all()
-    if request.method == 'POST':
-        flash("Thank you for voting " + form.chosenParty.data)
+    if current_user.is_authenticated:
+        if current_user.check_vote_eligibility():
+            form = SubmitVoteForm()
+            form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
+            parties = PoliticalParty.query.all()
+            if request.method == 'POST':
+                flash("Thank you for voting " + form.chosenParty.data)
+                return redirect(url_for('login'))
+            return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
+        else:
+            return redirect(url_for('unauthorised'))
+    else:
+        flash("Please login to access this page")
         return redirect(url_for('login'))
-    return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
 
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
@@ -67,4 +74,3 @@ def admin():
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():
     return render_template('unauthorised.html', title="Unauthorised")
-
