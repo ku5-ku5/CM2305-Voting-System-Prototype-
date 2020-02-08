@@ -1,8 +1,9 @@
-CREATE TABLE Users( 
+CREATE TABLE Users(
   UserUId CHAR(38),
-  EligibleToVote BINARY(1) DEFAULT 0,
+  EligibleToVote TINYINT(1) DEFAULT 0,
   Email VARCHAR(255) NOT NULL,
-  Pwd VARCHAR(255),
-  IsOfficial BINARY(1) DEFAULT 0,
+  PwdHash VARCHAR(255),
+  IsOfficial TINYINT(1) DEFAULT 0,
+  HasVoted TINYINT(1) DEFAULT 0,
   PRIMARY KEY (UId)
 );

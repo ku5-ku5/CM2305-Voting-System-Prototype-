@@ -43,26 +43,20 @@ def register():
 
 @app.route("/vote", methods=['GET','POST'])
 def vote():
-    form = SubmitVoteForm()
-    form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
-    parties = PoliticalParty.query.all()
-    if request.method == 'POST':
-        flash("Thank you for voting " + form.chosenParty.data)
-        return redirect(url_for('login'))
-    return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
-
-@app.route("/admin", methods=['GET', 'POST'])
-def admin():
-    form = loginForm()
-    if request.method == 'POST':
-        admin = Officials.query.filter_by(email=form.email.data).first()
-        if admin is not None and admin.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()):
-            login_user(admin)
-            flash("Login successful!!")
-            return redirect(url_for('adminHome'))
+    if current_user.is_authenticated:
+        if current_user.check_vote_eligibility():
+            form = SubmitVoteForm()
+            form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
+            parties = PoliticalParty.query.all()
+            if request.method == 'POST':
+                flash("Thank you for voting " + form.chosenParty.data)
+                return redirect(url_for('login'))
+            return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
         else:
-            flash("Invalid username or password!")
-            return redirect(url_for('admin'))
+            return redirect(url_for('unauthorised'))
+    else:
+        flash("Please login to access this page")
+        return redirect(url_for('login'))
 
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():

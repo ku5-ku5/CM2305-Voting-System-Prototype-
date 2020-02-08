@@ -18,32 +18,8 @@ class Users(UserMixin, db.Model):
 	PwdHash = db.Column(db.String(255), nullable = False)
 	HasVoted = db.Column(TINYINT(1), default = 0)
 
-	@property
-	def password(self):
-		raise AttributeError('password is not a readable attribute')
-
-	def get_id(self):
-		try:
-			return str(self.UserUId)
-		except AttributeError:
-			raise NotImplementedError('No `UserUId` attribute - override `get_id`')
-
-	def verify_password(self, password):
-		return self.PwdHash == password
-
-	def check_vote_eligibility(self):
-		if EligibleToVote == 1:
-			return True
-		else:
-			return False
-
-	@login_manager.user_loader
-	def load_user(self, UserUId):
-		self.UserUId = User.query.get(str(UserUId))
-		return
-
 	def __repr__(self):
-		return f"User('{self.EligibleToVote}', '{self.Email}', '{self.PwdHash}')"
+		return f"User('{self.EligibleToVote}', '{self.Email}')"
 
 class Vote(db.Model):
 	VoteId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True)
@@ -53,3 +29,37 @@ class Vote(db.Model):
 
 	def __repr__(self):
 		return f"Vote('{self.VoteStatus}')"
+
+class Officials(UserMixin, db.Model):
+	OfficialUId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True)
+	FirstName = db.Column(db.String(50), nullable=False)
+	Surname = db.Column(db.String(50), nullable=False)
+	email = db.Column(db.String(255), unique = True, nullable = False)
+	PwdHash = db.Column(db.String(255), nullable = False)
+	IsAdmin = db.Column(TINYINT(1), default = 0)
+
+	@property
+	def password(self):
+		raise AttributeError('password is not a readable attribute')
+
+	def get_id(self):
+		try:
+			return text_type(self.OfficialUId)
+		except AttributeError:
+			raise NotImplementedError('No `UserUId` attribute - override `get_id`')
+
+	def verify_password(self, password):
+		return self.PwdHash == password
+	
+	def check_admin_status(self):
+    	if IsAdmin == 1:
+			return True
+		else:
+			return False
+
+	@login_manager.user_loader
+	def load_user(OfficialUId):
+		return Officials.query.get(str(OfficialUId))
+
+	def __repr__(self):
+		return f"User('{self.FirstName}','{self.Surname}', '{self.Email}', '{self.PwdHash}', '{self.IsAdmin}')"

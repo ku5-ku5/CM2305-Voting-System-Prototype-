@@ -5,36 +5,36 @@
 <br>
 <form method="POST" action="">
   {{ form.hidden_tag() }}
-  <section class="">
-   <span title="Please enter First Name">  {{ form.firstName.label }}:   {{ form.firstName}} </span>
+  <section class=""> <!-- Register First Name -->
+    {{ form.firstName.label }} {{ form.firstName}}
     {% for error in form.firstName.errors %}
       <span style="color: green;">[{{ error }}]</span>
     {% endfor %}
   </section>
-  <br>
-  <section class="">
-  <span title="Please enter Surname"> {{ form.surname.label }}:    {{ form.surname}}</span>
+  <br> <!-- Adding Line Breaks so the form is easier to read -->
+  <section class=""> <!-- Surname Field -->
+    {{ form.surname.label }} {{ form.surname}}
     {% for error in form.surname.errors %}
       <span style="color: green;">[{{ error }}]</span>
     {% endfor %}
   </section>
   <br>
-  <section class="">
-  <span title="Please enter your Email"> {{ form.email.label }}:     {{ form.email}}</span>
+  <section class=""> <!-- Email Field -->
+    {{ form.email.label }} {{ form.email}}
     {% for error in form.email.errors %}
       <span style="color: green;">[{{ error }}]</span>
     {% endfor %}
   </section>
   <br>
-  <section class="">
-  <span title="Please enter a password that is (insert the requirements here)">  {{ form.password.label }}:     {{ form.password}}</span>
+  <section class=""> <!-- Password Field -->
+    {{ form.password.label }} {{ form.password}} 
     {% for error in form.password.errors %}
       <span style="color: green;">[{{ error }}]</span>
     {% endfor %}
   </section>
   <br>
-  <section class="">
-  <span title="Please re-enter the password">  {{ form.passwordVerify.label }}:     {{ form.passwordVerify}}</span>
+  <section class=""> <!-- Verify Password Field -->
+    {{ form.passwordVerify.label }} {{ form.passwordVerify}}
     {% for error in form.passwordVerify.errors %}
       <span style="color: green;">[{{ error }}]</span>
     {% endfor %}
@@ -44,6 +44,7 @@
     {{ form.submit() }}
   </section>
 </form>
-<center><button><a class="" href="{{ url_for('login') }}">Or Login if already registered</a></button></center>
-<h1> Need Help? Hover your mouse over the text box </h1>
+
+<a href="{{ url_for('index') }}"><p>Back to Home</p>
+
 {% endblock content %}

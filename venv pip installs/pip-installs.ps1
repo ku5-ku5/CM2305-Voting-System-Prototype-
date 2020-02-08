@@ -7,17 +7,8 @@ CMD /C "py -m venv venv"
 
 CMD /C "venv\Scripts\activate"
 
-CMD /C "pip install mysql-connector-python"
-CMD /C "pip install sqlalchemy"
-CMD /C "pip install flask"
-CMD /C "pip install flask-wtf"
-CMD /C "pip install jinja2"
-CMD /C "pip install pymysql"
-CMD /C "pip install flask-login"
-CMD /C "pip install -U Werkzeug"
-CMD /C "pip install flask-sqlalchemy"
-CMD /C "pip install Faker"
-CMD /C "pip install "
+CMD /C "pip install -r requirements.txt"
+
 
 # SIG # Begin signature block
 # MIIFZwYJKoZIhvcNAQcCoIIFWDCCBVQCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB

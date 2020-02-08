@@ -1,5 +1,5 @@
 body {
-	background-color: #4287f5;
+	background-color: #BFD809;
 	font-family: sans-serif;
 	margin: 0;
 	padding:0;
@@ -23,13 +23,8 @@ p {font-family: Tahoma, Geneva, sans-serif;
 #content {
 	width: 70%;
 	margin: 0 auto;
-	text-align: center;
 }
 
-.indexContent {
-	text-align: center;
-}
-
-a {
-	color: white;
+.flashes {
+	text-decoration: none;
 }
