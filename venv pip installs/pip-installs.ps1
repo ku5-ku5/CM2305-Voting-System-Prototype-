@@ -1,7 +1,7 @@
 ﻿#May need to run Set-ExecutionPolicy Bypass -File ".\pip-installs.ps1" in an elevated powershell terminal
 
 #May need to change the below to match your directory
-cd C:\repos\CM2305-Voting-System-Prototype-\
+Set-Location C:\repos\CM2305-Voting-System-Prototype-\
 
 CMD /C "py -m venv venv"
 

@@ -1,4 +1,6 @@
-from Prototype import db, login_manager
+#/usr/bin/python3
+
+from Prototype import db, login_manager, admin
 import hashlib
 from flask_login import UserMixin
 from sqlalchemy.dialects.mysql import TINYINT
@@ -74,6 +76,12 @@ class Officials(db.Model):
 
 	def verify_password(self, password):
 		return self.PwdHash == password
+
+	def check_if_official():
+		if IsAdmin == 1:
+			return True
+		else:
+			return False
 
 	@login_manager.user_loader
 	def load_user(OfficialUId):

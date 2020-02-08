@@ -1,3 +1,5 @@
+#/usr/bin/python3
+
 import os
 from flask import render_template, url_for, request, redirect, flash
 from sqlalchemy.orm import load_only
@@ -48,10 +50,10 @@ def vote():
             form = SubmitVoteForm()
             form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
             parties = PoliticalParty.query.all()
-            if request.method == 'POST':
-                flash("Thank you for voting " + form.chosenParty.data)
-                return redirect(url_for('login'))
             return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
+        if request.method == 'POST':
+            flash("Thank you for voting " + form.chosenParty.data)
+            return redirect(url_for('login'))
         else:
             return redirect(url_for('unauthorised'))
     else:
@@ -70,6 +72,24 @@ def admin():
         else:
             flash("Invalid username or password!")
             return redirect(url_for('admin'))
+    else:
+        return render_template('adminLogin.html', title='Admin Login', form=form)
+
+@app.route("/adminHome", methods=['GET'])
+def adminHome():
+    if current_user.is_authenticated:
+        if current_user.check_if_official():
+            return render_template('adminHome.html', title="Admin - Home")
+        else:
+            return redirect(url_for('officialsHome'))
+
+@app.route("/officialsHome", methods=['GET'])
+def officialsHome():
+    if current_user.is_authenticated:
+        if current_user.check_if_official():
+            return redirect(url_for('adminHome'))
+        else:
+            return render_template('officialsHome.html', title="Officials - Home")
 
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():
