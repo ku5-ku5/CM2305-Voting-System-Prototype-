@@ -1,0 +1,30 @@
+body {
+	background-color: #BFD809;
+	font-family: sans-serif;
+	margin: 0;
+	padding:0;
+}
+
+h1 {	font-family:sans-serif;
+	color:#001ecc;
+	text-align: center;
+	font-variant: small-caps;
+}
+
+
+p {font-family: Tahoma, Geneva, sans-serif; 
+  font-style: normal;
+  font-weight: normal;
+  color:  #000000
+  font-size: 200px;
+}
+
+
+#content {
+	width: 70%;
+	margin: 0 auto;
+}
+
+.flashes {
+	text-decoration: none;
+}
