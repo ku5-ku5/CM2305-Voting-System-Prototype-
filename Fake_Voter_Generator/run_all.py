@@ -4,19 +4,16 @@ import random
 import datetime
 import time
 
-pwd = 'INSERT_PASSWORD'
+pwd = 'PASSWORD'
 
-try:
-    votedb = mysql.connector.connect(
-      host="localhost",
-      user="root",
-      passwd=pwd
-    )
-except mysql.connector.Error as er:
-  if er.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-    print("Issue with your username or password")
-  else:
-    print(er)
+votedb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    port=3306,
+    auth_plugin='mysql_native_password',
+    passwd=pwd
+)
+
 
 def create_database():
 
@@ -240,7 +237,7 @@ def add_admin():
 #The below will run the functions
 
 #Create statements
-create_database()
+#create_database()
 create_tables()
 #Insert statements that populate the data
 parties()
