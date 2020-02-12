@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
 from Prototype import app, db
 from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
-from Prototype.models import Users, PoliticalParty, Vote, Officials
+from Prototype.models import Users, PoliticalParty, Vote
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
@@ -59,37 +59,6 @@ def vote():
     else:
         flash("Please login to access this page")
         return redirect(url_for('login'))
-
-@app.route("/admin", methods=['GET', 'POST'])
-def admin():
-    form = loginForm()
-    if request.method == 'POST':
-        admin = Officials.query.filter_by(email=form.email.data).first()
-        if admin is not None and admin.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()):
-            login_user(admin)
-            flash("Login successful!!")
-            return redirect(url_for('adminHome'))
-        else:
-            flash("Invalid username or password!")
-            return redirect(url_for('admin'))
-    else:
-        return render_template('adminLogin.html', title='Admin Login', form=form)
-
-@app.route("/adminHome", methods=['GET'])
-def adminHome():
-    if current_user.is_authenticated:
-        if current_user.check_if_official():
-            return render_template('adminHome.html', title="Admin - Home")
-        else:
-            return redirect(url_for('officialsHome'))
-
-@app.route("/officialsHome", methods=['GET'])
-def officialsHome():
-    if current_user.is_authenticated:
-        if current_user.check_if_official():
-            return redirect(url_for('adminHome'))
-        else:
-            return render_template('officialsHome.html', title="Officials - Home")
 
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():

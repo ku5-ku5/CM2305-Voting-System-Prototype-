@@ -1,4 +1,4 @@
-﻿#May need to run Set-ExecutionPolicy Bypass -File ".\pip-installs.ps1" in an elevated powershell terminal
+﻿#May need to run set-executionpolicy remotesigned in an elevated powershell terminal
 
 #May need to change the below to match your directory
 Set-Location C:\repos\CM2305-Voting-System-Prototype-\

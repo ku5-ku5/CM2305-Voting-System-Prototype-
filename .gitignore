@@ -2,3 +2,5 @@
 \venv
 \Fake_Voter_Generator\__pycache__
 \.vscode
+\__pycache__
+
