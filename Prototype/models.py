@@ -1,4 +1,4 @@
-from Prototype import db, login_manager
+from Application import db, login_manager
 import hashlib
 from flask_login import UserMixin
 from sqlalchemy.dialects.mysql import TINYINT

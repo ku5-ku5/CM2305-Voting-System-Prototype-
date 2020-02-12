@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
 from Prototype import app, db
 from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
-from Prototype.models import Users, PoliticalParty, Vote, Officials
+from Prototype.models import Users, PoliticalParty, Vote
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")

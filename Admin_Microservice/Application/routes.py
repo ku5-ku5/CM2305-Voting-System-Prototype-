@@ -3,9 +3,9 @@ from flask import render_template, url_for, request, redirect, flash
 from sqlalchemy.orm import load_only
 from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
-from Prototype import app, db
-from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
-from Prototype.models import Users, PoliticalParty, Vote, Officials
+from Application import app, db
+from Application.forms import loginForm
+from Application.models import Users, PoliticalParty, Officials
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
@@ -21,6 +21,8 @@ def index():
         else:
             flash("Invalid username or password!")
             return redirect(url_for('index'))
+    else:
+        return render_template("adminLogin.html", form=form, title="Admin Login")
 
 @app.route("/admin")
 def admin():

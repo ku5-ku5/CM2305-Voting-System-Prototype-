@@ -1,4 +1,4 @@
-from Prototype import db, login_manager
+from Application import db, login_manager
 import hashlib
 from flask_login import UserMixin
 from sqlalchemy.dialects.mysql import TINYINT
@@ -52,7 +52,7 @@ class Officials(UserMixin, db.Model):
 		return self.PwdHash == password
 	
 	def check_admin_status(self):
-    	if IsAdmin == 1:
+		if IsAdmin == 1:
 			return True
 		else:
 			return False
