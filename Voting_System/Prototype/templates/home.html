@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="indexContent">
+    <div class="introText">
+      <p>For the group 16 project, we were tasked with creating a <br>
+        secure online voting system with the scope for it to be <br>
+        used in a potential general election.</center>
+      </p>
+    </div>
+    <div class="vote_box">
+        <center><button><a class="" href="{{ url_for('vote') }}">Vote Here</a></button></center>
+    </div>
+  </div>
+{% endblock content %}
