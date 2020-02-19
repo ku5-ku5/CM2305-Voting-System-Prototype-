@@ -35,10 +35,11 @@ class Users(UserMixin, db.Model):
 		return self.PwdHash == password
 
 	def check_vote_eligibility(self):
-		if self.EligibleToVote == 1:
-			return True
-		else:
-			return False
+		return self.EligibleToVote == 1
+	
+	def check_has_voted(self):
+		return HasVoted == 0
+    			
 
 	@login_manager.user_loader
 	def load_user(UserUId):

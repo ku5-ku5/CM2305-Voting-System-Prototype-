@@ -2,13 +2,20 @@
 {% block content %}
   <div class="indexContent">
     <div class="introText">
-      <p>For the group 16 project, we were tasked with creating a <br>
+      <center><p>For the group 16 project, we were tasked with creating a <br>
         secure online voting system with the scope for it to be <br>
         used in a potential general election.</center>
       </p>
     </div>
-    <div class="vote_box">
-        <center><button><a class="" href="{{ url_for('vote') }}">Vote Here</a></button></center>
-    </div>
+
+    {% if current_user.check_vote_eligibility() %}
+        <div class="voteBox">
+            <center><button><a class="" href="{{ url_for('vote') }}">Vote Here</a></button></center>
+        </div>
+    {% else %}
+        <div class="register">
+            <center><p>Please register to vote <a href="https://www.gov.uk/register-to-vote">HERE</a></p></center>
+        </div>
+    {% endif %}
   </div>
 {% endblock content %}
