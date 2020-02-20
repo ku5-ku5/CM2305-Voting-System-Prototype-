@@ -3,11 +3,13 @@
 import os
 from flask import render_template, url_for, request, redirect, flash
 from sqlalchemy.orm import load_only
+from sqlalchemy.sql import exists
 from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
 from Prototype import app, db
 from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
 from Prototype.models import Users, PoliticalParty, Vote
+from Prototype.email import send_mail
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
@@ -19,7 +21,7 @@ def index():
 def login():
     form = loginForm()
     if request.method == 'POST':
-        user = Users.query.filter_by(email=form.email.data).first()
+        user = Users.query.filter_by(Email=form.email.data).first()
         if user is not None and user.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()):
             login_user(user)
             flash("Login successful!!")
@@ -35,10 +37,16 @@ def register():
     if request.method == 'POST':
         if form.validate_on_submit():
             password_hash = hashlib.sha256(form.password.data.encode()).hexdigest()
-            user = Users(email=form.email.data, PwdHash=password_hash)
+            user_email = form.email.data
+            #if db.session.query(exists().where(Users.Email==user_email)).scalar() is None:
+            subject = "Registration for online voting " + form.firstName.data
+            user = Users(Email=user_email, PwdHash=password_hash)
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for('login'))
+            send_mail(user_email, subject, 'Registration_Email\\email.html')
+            return redirect(url_for('home'))
+            #else:
+             #   return flash("User already exists")
         else:
             return flash("Unknown error please try again later")
     return render_template('register.html', title="Online Vote - Register",form=form)
