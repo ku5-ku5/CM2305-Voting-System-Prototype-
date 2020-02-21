@@ -46,6 +46,13 @@ def create_tables():
         table_cursor.execute("USE votedb;")
 
         try:
+            table_cursor.execute("CREATE TABLE `Elections` ( Id INT NOT NULL UNIQUE, Name VARCHAR(255) NOT NULL, StartDate DATETIME NOT NULL, EndDate DATETIME NOT NULL, PRIMARY KEY (Id));")
+            print("PoliticalParty table created")
+        except mysql.connector.Error as err:
+            print("Failed to create the PoliticalParty table")
+            print(err)
+
+        try:
             table_cursor.execute("CREATE TABLE `Political_Party` ( UId CHAR(38) NOT NULL UNIQUE,Name VARCHAR(255) NOT NULL,PRIMARY KEY (UId));")
             print("PoliticalParty table created")
         except mysql.connector.Error as err:
@@ -53,7 +60,7 @@ def create_tables():
             print(err)
 
         try:
-            table_cursor.execute("CREATE TABLE `Vote` (VoteId CHAR(38) NOT NULL UNIQUE,PoliticalPartyID CHAR(38) NOT NULL,/**VoteStatus TINYINT(1) DEFAULT 0,**/VoteTimestamp DATETIME NOT NULL,PRIMARY KEY (VoteId),FOREIGN KEY (PoliticalPartyID) REFERENCES Political_Party(UId));")
+            table_cursor.execute("CREATE TABLE `Vote` (VoteId CHAR(38) NOT NULL UNIQUE,PoliticalPartyID CHAR(38) NOT NULL,VoteTimestamp DATETIME NOT NULL,PRIMARY KEY (VoteId), ElectionId INT NOT NULL, FOREIGN KEY (ElectionId) REFERENCES Elections(Id), FOREIGN KEY (PoliticalPartyID) REFERENCES Political_Party(UId));")
             print("Vote table created")
         except mysql.connector.Error as err:
             print("Failed to create the Vote table")
@@ -67,7 +74,7 @@ def create_tables():
             print(err)
 
         try:
-            table_cursor.execute("CREATE TABLE `Officials` (OfficialUId CHAR(38) NOT NULL UNIQUE,FirstName VARCHAR(50) NOT NULL, Surname VARCHAR(50) NOT NULL,Email VARCHAR(255) NOT NULL UNIQUE,PwdHash VARCHAR(255),IsAdmin TINYINT(1) DEFAULT 0,PRIMARY KEY (OfficialUId));")
+            table_cursor.execute("CREATE TABLE `Officials` (OfficialUId CHAR(38) NOT NULL UNIQUE,FirstName VARCHAR(50) NOT NULL, Surname VARCHAR(50) NOT NULL,Email VARCHAR(255) NOT NULL UNIQUE, PwdHash VARCHAR(255),IsAdmin TINYINT(1) DEFAULT 0, PRIMARY KEY (OfficialUId));")
         except mysql.connector.Error as err:
             print("Failed to create officials table")
             print(err)
