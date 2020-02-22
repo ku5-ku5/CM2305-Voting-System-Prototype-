@@ -23,7 +23,7 @@ def login():
         if user is not None and user.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()):
             login_user(user)
             flash("Login successful!!")
-            return redirect(url_for('vote'))
+            return redirect(url_for('home'))
         else:
             flash("Invalid username or password!")
             return redirect(url_for('login'))
@@ -46,14 +46,16 @@ def register():
 @app.route("/vote", methods=['GET','POST'])
 def vote():
     if current_user.is_authenticated:
-        if current_user.check_vote_eligibility():
+        if current_user.check_vote_eligibility() & current_user.check_has_voted():
             form = SubmitVoteForm()
             form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
             parties = PoliticalParty.query.all()
             return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
         if request.method == 'POST':
+            vote = form.chosenParty.data
+            db.session.add(vote)
             flash("Thank you for voting " + form.chosenParty.data)
-            return redirect(url_for('login'))
+            return redirect(url_for('home'))
         else:
             return redirect(url_for('unauthorised'))
     else:
@@ -63,3 +65,10 @@ def vote():
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():
     return render_template('unauthorised.html', title="Unauthorised")
+
+@app.route("/home", methods=['GET', 'POST'])
+def home():
+    if current_user.is_authenticated:
+        return render_template('home.html', title="User Home Page")
+    else:
+        return redirect(url_for('unauthorised'))
