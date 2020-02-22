@@ -4,7 +4,7 @@ from sqlalchemy.orm import load_only
 from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
 from Application import app, db
-from Application.forms import loginForm
+from Application.forms import loginForm, CreateElectionForm
 from Application.models import Users, PoliticalParty, Officials
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -47,3 +47,8 @@ def official():
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():
     return render_template('unauthorised.html', title="Unauthorised")
+
+@app.route("/createElection", methods=['GET','POST'])
+def createElection():
+    form = CreateElectionForm()
+    return render_template("election.html", title="Create Election", form=form)

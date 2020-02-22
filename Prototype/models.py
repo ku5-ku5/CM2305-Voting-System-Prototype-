@@ -1,7 +1,4 @@
-
-#/usr/bin/python3
-
-from Prototype import db, login_manager, admin
+from Prototype import db, login_manager#, admin
 import hashlib
 from flask_login import UserMixin
 from sqlalchemy.dialects.mysql import TINYINT
@@ -56,8 +53,7 @@ class Vote(db.Model):
 
 	def __repr__(self):
 		return f"Vote('{self.VoteStatus}')"
-<<<<<<< HEAD
-
+'''
 class Officials(db.Model):
 	OfficialUId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True)
 	FirstName = db.Column(db.String(50), nullable=False)
@@ -91,5 +87,4 @@ class Officials(db.Model):
 
 	def __repr__(self):
 		return f"User('{self.FirstName}','{self.Surname}', '{self.Email}', '{self.PwdHash}', '{self.IsAdmin}')"
-=======
->>>>>>> 882346c887978823e6411e98db7795deac68d379
+'''

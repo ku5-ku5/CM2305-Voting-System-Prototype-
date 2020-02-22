@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+	<h1> Create Election: </h1>
+	<form action="" method="POST">
+		{{ form.csrf_token }}
+		<div>
+			{{ form.title.label }} {{ form.title }}
+			{{ form.description.label }} {{ form.description }}
+			{{ form.startDate.label }} {{ form.startDate }}
+			{{ form.endDate.label }} {{ form.endDate }}
+		</div>
+	</form>
+{% endblock content %}
