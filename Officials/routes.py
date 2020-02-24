@@ -5,9 +5,7 @@ from flask import render_template, url_for, request, redirect, flash
 from sqlalchemy.orm import load_only
 from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
-from Prototype import app, db
-from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
-from Prototype.models import Users, PoliticalParty, Vote
+from Officials import app, db
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
@@ -15,6 +13,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 def index():
     return render_template('officials_home.html', title="Online Vote System")
 
+"""
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form = loginForm()
@@ -72,3 +71,4 @@ def home():
         return render_template('home.html', title="User Home Page")
     else:
         return redirect(url_for('unauthorised'))
+"""

@@ -1,22 +1,5 @@
-{% extends "layout.html" %}
-{% block content %}
-  <div class="indexContent">
-    <div class="introText">
-      <center>This is the Officials page. Create an election or View Results here</center>
-    </div>
+<h1>This is the Officials page. Create an election or View Results here</h1>
 
-    {% if current_user.is_authenticated() %}
-
-    <p>Would you like to create an election or view results?</p>
-    <center><button><a class="" href="{{ url_for('#') }}">Create Election</a></button></center>
-    <center><button><a class="" href="{{ url_for('#') }}">View Results</a></button></center>
-
-    {% else %}
-
-    <p>To access Officials features, please register or sign in below</p>
-    <center><button><a class="" href="{{ url_for('#') }}">Register</a></button></center>
-    <center><button><a class="" href="{{ url_for('#') }}">Sign In</a></button></center>
-
-    {% endif %}
-  </div>
-{% endblock content %}
+<p>To access Officials features, please register or sign in below</p>
+<button><a class="" href="{{ url_for('index') }}">Register</a></button>
+<button><a class="" href="{{ url_for('index') }}">Sign In</a></button>
