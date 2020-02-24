@@ -13,7 +13,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")
 @app.route("/index", methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', title="Online Vote System")
+    return render_template('officials_home.html', title="Online Vote System")
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():

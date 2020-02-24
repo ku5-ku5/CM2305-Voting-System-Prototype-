@@ -2,20 +2,21 @@
 {% block content %}
   <div class="indexContent">
     <div class="introText">
-      <center><p>For the group 16 project, we were tasked with creating a <br>
-        secure online voting system with the scope for it to be <br>
-        used in a potential general election.</center>
-      </p>
+      <center>This is the Officials page. Create an election or View Results here</center>
     </div>
 
-    {% if current_user.check_vote_eligibility() %}
-        <div class="voteBox">
-            <center><button><a class="" href="{{ url_for('vote') }}">Vote Here</a></button></center>
-        </div>
+    {% if current_user.is_authenticated() %}
+
+    <p>Would you like to create an election or view results?</p>
+    <center><button><a class="" href="{{ url_for('#') }}">Create Election</a></button></center>
+    <center><button><a class="" href="{{ url_for('#') }}">View Results</a></button></center>
+
     {% else %}
-        <div class="register">
-            <center><p>Please register to vote <a href="https://www.gov.uk/register-to-vote">HERE</a></p></center>
-        </div>
+
+    <p>To access Officials features, please register or sign in below</p>
+    <center><button><a class="" href="{{ url_for('#') }}">Register</a></button></center>
+    <center><button><a class="" href="{{ url_for('#') }}">Sign In</a></button></center>
+
     {% endif %}
   </div>
 {% endblock content %}
