@@ -1,5 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
+
 <h1>This is the Officials page. Create an election or View Results here</h1>
 
 <p>To access Officials features, please register or sign in below</p>
-<button><a class="" href="{{ url_for('index') }}">Register</a></button>
+<button><a class="" href="{{ url_for('register') }}">Register</a></button>
 <button><a class="" href="{{ url_for('index') }}">Sign In</a></button>
+
+{% endblock content %}
