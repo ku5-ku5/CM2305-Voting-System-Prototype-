@@ -1,11 +1,8 @@
-<<<<<<< HEAD:Prototype/models.py
 from Prototype import db, login_manager#, admin
-=======
 
 #/usr/bin/python3
 
 from Prototype import db, login_manager
->>>>>>> 40f48113bc73351ed1abab875f3b7f594cf0dfb9:Voting_System/Prototype/models.py
 import hashlib
 from flask_login import UserMixin
 from sqlalchemy.dialects.mysql import TINYINT
@@ -42,7 +39,7 @@ class Users(UserMixin, db.Model):
 		return self.EligibleToVote == 1
 	
 	def check_has_voted(self):
-		return HasVoted == 0
+		return self.HasVoted == 0
     			
 
 	@login_manager.user_loader
@@ -61,7 +58,7 @@ class Vote(db.Model):
 
 	def __repr__(self):
 		return f"Vote('{self.VoteStatus}')"
-<<<<<<< HEAD:Prototype/models.py
+
 '''
 class Officials(db.Model):
 	OfficialUId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True)
@@ -97,5 +94,3 @@ class Officials(db.Model):
 	def __repr__(self):
 		return f"User('{self.FirstName}','{self.Surname}', '{self.Email}', '{self.PwdHash}', '{self.IsAdmin}')"
 '''
-=======
->>>>>>> 40f48113bc73351ed1abab875f3b7f594cf0dfb9:Voting_System/Prototype/models.py

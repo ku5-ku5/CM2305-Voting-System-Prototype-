@@ -1,7 +1,8 @@
 #/usr/bin/python3
 
 import os
-from flask import render_template, url_for, request, redirect, flash
+from flask import render_template, url_for, request, redirect, flash, session
+from datetime import timedelta
 from sqlalchemy.orm import load_only
 from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
@@ -9,6 +10,12 @@ from Prototype import app, db
 from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
 from Prototype.models import Users, PoliticalParty, Vote
 from flask_login import login_user, current_user, logout_user, login_required
+
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=15)
 
 @app.route("/")
 @app.route("/index", methods=['GET', 'POST'])

@@ -17,3 +17,4 @@ class CreateElectionForm(FlaskForm):
     description = StringField('Description', validators=[DataRequired('Please enter a description')])
     startDate = DateField('Start Date', validators=[Regexp('^(0[1-9]|[12][0-9]|3[01])[- /.]'), DataRequired()])
     endDate = DateField('End Date', validators=[Regexp('^(0[1-9]|[12][0-9]|3[01])[- /.]'), DataRequired()])
+    submit = SubmitField('Create Election')

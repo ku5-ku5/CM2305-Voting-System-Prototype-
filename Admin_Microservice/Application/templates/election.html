@@ -5,9 +5,18 @@
 		{{ form.csrf_token }}
 		<div>
 			{{ form.title.label }} {{ form.title }}
+			<br>
+			<br>
 			{{ form.description.label }} {{ form.description }}
+			<br>
+			<br>
 			{{ form.startDate.label }} {{ form.startDate }}
+			<br>
+			<br>
 			{{ form.endDate.label }} {{ form.endDate }}
+			<br>
+			<br>
+			{{ form.submit() }}
 		</div>
 	</form>
 {% endblock content %}
