@@ -14,14 +14,8 @@ class Officials_Registration(FlaskForm):
         mail = User.query.filter_by(email=email.data).first()
         if mail:
             raise ValidationError('This email is already being used.')
-'''
+
 class loginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    useremail=StringField('Please Leave Blank', validators=[Regexp('^$',message="Please hover over textbox for more information")])
     submit = SubmitField('Login')
-
-class SubmitVoteForm(FlaskForm):
-    chosenParty = RadioField('Label')
-    submit = SubmitField('Submit Vote')
-'''
