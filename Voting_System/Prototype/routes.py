@@ -35,18 +35,15 @@ def login():
 def register():
     form = registrationForm()
     if request.method == 'POST':
-        if form.validate_on_submit():
+        if form.validate_on_submit() & (db.session.query(db.session.query(Users).filter_by(Email=form.email.data).exists()).scalar() == False):
             password_hash = hashlib.sha256(form.password.data.encode()).hexdigest()
             user_email = form.email.data
-            #if db.session.query(exists().where(Users.Email==user_email)).scalar() is None:
             subject = "Registration for online voting " + form.firstName.data
             user = Users(Email=user_email, PwdHash=password_hash)
             db.session.add(user)
             db.session.commit()
             send_mail(user_email, subject, 'Registration_Email\\email.html')
             return redirect(url_for('home'))
-            #else:
-             #   return flash("User already exists")
         else:
             return flash("Unknown error please try again later")
     return render_template('register.html', title="Online Vote - Register",form=form)

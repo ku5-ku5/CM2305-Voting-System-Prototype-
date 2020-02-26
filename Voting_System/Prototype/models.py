@@ -37,7 +37,7 @@ class Users(UserMixin, db.Model):
 	def check_vote_eligibility(self):
 		return self.EligibleToVote == 1
 	
-	#The below returns true if the user hasnt voted and 
+	#The below returns true if the user hasnt voted 
 	def check_has_voted(self):
 		return HasVoted == 0
     			

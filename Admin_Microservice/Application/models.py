@@ -9,7 +9,7 @@ class PoliticalParty(db.Model):
 	Name = db.Column(db.String(255), nullable = False)
 
 	def __repr__(self):
-		return f"PoliticalParty('{self.Name}')"
+		return f"<PoliticalParty('{self.Name}')>"
 
 class Users(UserMixin, db.Model):
 	UserUId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True, default=db.text("uuid()"))
@@ -19,7 +19,7 @@ class Users(UserMixin, db.Model):
 	HasVoted = db.Column(TINYINT(1), default = 0)
 
 	def __repr__(self):
-		return f"User('{self.EligibleToVote}', '{self.Email}')"
+		return f"<User('{self.EligibleToVote}', '{self.Email}')>"
 
 class Vote(db.Model):
 	VoteId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True)
