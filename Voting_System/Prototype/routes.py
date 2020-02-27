@@ -6,11 +6,13 @@ from sqlalchemy.orm import load_only
 from sqlalchemy.sql import exists
 from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
-from Prototype import app, db
+from datetime import datetime
+from Prototype import app, db, mail
 from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
 from Prototype.models import Users, PoliticalParty, Vote
-from Prototype.email import send_mail
+
 from flask_login import login_user, current_user, logout_user, login_required
+from flask_mail import Message
 
 @app.route("/")
 @app.route("/index", methods=['GET', 'POST'])
@@ -38,29 +40,33 @@ def register():
         if form.validate_on_submit() & (db.session.query(db.session.query(Users).filter_by(Email=form.email.data).exists()).scalar() == False):
             password_hash = hashlib.sha256(form.password.data.encode()).hexdigest()
             user_email = form.email.data
-            subject = "Registration for online voting " + form.firstName.data
             user = Users(Email=user_email, PwdHash=password_hash)
             db.session.add(user)
             db.session.commit()
-            send_mail(user_email, subject, 'Registration_Email\\email.html')
-            return redirect(url_for('home'))
-        else:
-            return flash("Unknown error please try again later")
+            msg = Message(subject="Thank You For Registering!",sender='vote.prototype@gmail.com', recipients=user_email)
+            msg.html=render_template('\\Registration_Email\\email.html')
+            msg.body=msg.html
+            mail.send(msg)
+        return redirect(url_for('home'))
     return render_template('register.html', title="Online Vote - Register",form=form)
 
 @app.route("/vote", methods=['GET','POST'])
 def vote():
     if current_user.is_authenticated:
         if current_user.check_vote_eligibility() & current_user.check_has_voted():
+            flash(db.session.query(PoliticalParty).first())
             form = SubmitVoteForm()
             form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
             parties = PoliticalParty.query.all()
             return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
         if request.method == 'POST':
-            vote = form.chosenParty.data
+            party = form.chosenParty.data
+            timestamp = datetime.datetime.now()
+            political_party = db.session.query(PoliticalParty).filter_by(Name=form.chosenParty.data).first()
+            vote = Vote(PoliticalPartyID=political_party.UId, VoteTimestamp=timestamp)
             db.session.add(vote)
             flash("Thank you for voting " + form.chosenParty.data)
-            return redirect(url_for('home'))
+            return redirect(url_for('index'))
         else:
             return redirect(url_for('unauthorised'))
     else:

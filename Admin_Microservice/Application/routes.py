@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
 from Application import app, db
 from Application.forms import loginForm
+from Application.generate_xml import Filename, Generate_xml
 from Application.models import Users, PoliticalParty, Officials
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -24,7 +25,7 @@ def index():
     else:
         return render_template("adminLogin.html", form=form, title="Admin Login")
 
-@app.route("/admin")
+@app.route("/admin", methods=['GET', 'POST'])
 def admin():
     if current_user.is_authenticated:
         if current_user.check_admin_status():
@@ -34,7 +35,7 @@ def admin():
     else:
         return redirect(url_for('unauthorised'))
 
-@app.route("/official")
+@app.route("/official", methods=['GET', 'POST'])
 def official():
     if current_user.is_authenticated:
         if current_user.check_admin_status() == False:

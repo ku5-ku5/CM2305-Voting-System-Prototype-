@@ -11,6 +11,12 @@ class PoliticalParty(db.Model):
 	UId = db.Column(UUID(as_uuid = True), unique = True, primary_key = True)
 	Name = db.Column(db.String(255), nullable = False)
 
+	def get_id(self):
+		try:
+			return str(self.UId)
+		except AttributeError:
+			raise NotImplementedError('No `UId` attribute - override `get_id`')
+
 	def __repr__(self):
 		return f"PoliticalParty('{self.Name}')"
 
@@ -39,7 +45,7 @@ class Users(UserMixin, db.Model):
 	
 	#The below returns true if the user hasnt voted 
 	def check_has_voted(self):
-		return HasVoted == 0
+		return self.HasVoted == 0
     			
 
 	@login_manager.user_loader
@@ -53,8 +59,7 @@ class Users(UserMixin, db.Model):
 class Vote(db.Model):
 	VoteId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True)
 	PoliticalPartyID = db.Column(db.CHAR(38), db.ForeignKey('party.UId'), nullable = False)
-	VoteStatus = db.Column(TINYINT(1), default = 0)
 	VoteTimestamp = db.Column(db.DATETIME(), nullable = False)
 
 	def __repr__(self):
-		return f"Vote('{self.VoteStatus}')"
+		return f"Vote('{self.VoteId}', '{self.PoliticalPartyID}', '{self.VoteTimestamp}')"
