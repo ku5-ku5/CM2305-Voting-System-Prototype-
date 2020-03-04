@@ -19,3 +19,7 @@ class Official(db.Model, UserMixin):
 
 		def verify_password(self, password):
 			return self.password == password
+
+class Election(db.Model, UserMixin):
+	title = db.Column(db.String(60), primary_key=True)
+	description = db.Column(db.String(240), nullable=True)

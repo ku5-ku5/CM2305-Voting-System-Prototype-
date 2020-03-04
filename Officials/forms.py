@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, RadioField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, RadioField, DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, Regexp, ValidationError
-from Officials.models import Official
+from Officials.models import Official, Election
 
 class Officials_Registration(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -18,3 +18,13 @@ class loginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+class CreateElectionForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired('Please enter the title for the election (e.g. "General Election 2019")')])
+    description = StringField('Description', validators=[DataRequired('Please enter a description')])
+    submit = SubmitField('Create Election')
+
+    def validate_title(self, title):
+        election_title = Election.query.filter_by(title=title.data).first()
+        if election_title:
+            raise ValidationError('This title is already in use')

@@ -5,8 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
 from Officials import app, db
 from flask_login import login_user, current_user, logout_user, login_required
-from Officials.forms import Officials_Registration, loginForm
-from Officials.models import Official
+from Officials.forms import Officials_Registration, loginForm, CreateElectionForm
+from Officials.models import Official, Election
 
 
 @app.route("/")
@@ -39,6 +39,25 @@ def register():
         db.session.commit()
         return redirect(url_for('login'))
     return render_template('officials_register.html', title="Register as an Official", form=form)
+
+@app.route("/create_election", methods=['GET', 'POST'])
+def create_election():
+    form = CreateElectionForm()
+    if form.validate_on_submit():
+        new_election = Election(title=form.title.data, description=form.description.data)
+        db.session.add(new_election)
+        db.session.commit()
+        flash("Successfully Created Election!", "success")
+        return redirect(url_for('index'))
+    return render_template("create_election.html", title="Create Election", form=form)
+
+@app.route('/view_election')
+def view_election():
+    return render_template('view_election.html', title='View Election')
+
+@app.route('/results')
+def results():
+    return render_template('results.html', title='Results')
 
 @app.route("/logout")
 def logout():
