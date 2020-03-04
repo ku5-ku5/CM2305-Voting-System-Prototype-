@@ -5,8 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
 from Officials import app, db
 from flask_login import login_user, current_user, logout_user, login_required
-from Officials.forms import Officials_Registration, loginForm, CreateElectionForm
-from Officials.models import Official, Election
+from Officials.forms import Officials_Registration, loginForm, CreateElectionForm, add_candidate_form
+from Officials.models import Official, Election, Candidates
 
 
 @app.route("/")
@@ -48,12 +48,27 @@ def create_election():
         db.session.add(new_election)
         db.session.commit()
         flash("Successfully Created Election!", "success")
-        return redirect(url_for('index'))
+        return redirect(url_for('add_candidates'))
     return render_template("create_election.html", title="Create Election", form=form)
+
+@app.route('/add_candidates', methods=['GET', 'POST'])
+def add_candidates():
+    form = add_candidate_form()
+    if form.validate_on_submit():
+        candidate = Candidates(title=form.title.data, name=form.name.data, party=form.party.data)
+        db.session.add(candidate)
+        db.session.commit()
+        flash("Candidate Added!", "success")
+        return redirect(url_for('add_candidates'))
+    return render_template('add_candidates.html', title='Add Candidates', form=form)
 
 @app.route('/view_election')
 def view_election():
-    return render_template('view_election.html', title='View Election')
+    connection = db.engine.raw_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT title, name, party FROM candidates group by title")
+    data = cursor.fetchall()
+    return render_template('view_election.html', title='View Election', data=data)
 
 @app.route('/results')
 def results():

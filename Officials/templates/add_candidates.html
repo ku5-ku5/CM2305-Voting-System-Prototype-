@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<legend>Add Candidates: </legend>
+<form action="" method="POST">
+  {{ form.csrf_token }}
+  <div>
+    {{ form.title.label }} {{ form.title }}
+  </div>
+  <div>
+    {{ form.name.label }} {{ form.name }}
+  </div>
+
+  <div>
+    {{ form.party.label }} {{ form.party }}
+  </div>
+
+  <div>
+    {{ form.submit() }}
+  </div>
+</form>
+<br>
+<button type="button" name="button"><a href="{{url_for('index')}}">Click Here if you have finished adding your candidates</a></button>
+{% endblock content %}

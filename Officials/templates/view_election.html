@@ -1,4 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
-<legend>VIEW YOUR ELECTION</legend>
+
+<label for="elections">Choose an election:</label>
+
+<select id="election">
+  {% for item in data %}
+  <option><a href="url_for('index')">{{item[0]}}</a></option>
+  {% endfor %}
+</select>
 {% endblock content %}

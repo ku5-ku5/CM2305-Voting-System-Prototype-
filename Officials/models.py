@@ -22,4 +22,9 @@ class Official(db.Model, UserMixin):
 
 class Election(db.Model, UserMixin):
 	title = db.Column(db.String(60), primary_key=True)
-	description = db.Column(db.String(240), nullable=True)
+	description = db.Column(db.String(240))
+
+class Candidates(db.Model, UserMixin):
+	title = db.Column(db.String(60), primary_key=True)
+	name = db.Column(db.String(200))
+	party = db.Column(db.String(60))
