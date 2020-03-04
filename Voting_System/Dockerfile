@@ -8,6 +8,8 @@ COPY ./requirements.txt /Voting_System/requirements.txt
 
 WORKDIR /Voting_System
 
+EXPOSE 5000
+
 RUN pip install -r requirements.txt
 
 COPY . /Voting_System

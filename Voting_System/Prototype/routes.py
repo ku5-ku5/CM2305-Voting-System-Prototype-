@@ -60,7 +60,6 @@ def vote():
             parties = PoliticalParty.query.all()
             return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
         if request.method == 'POST':
-            party = form.chosenParty.data
             timestamp = datetime.datetime.now()
             political_party = db.session.query(PoliticalParty).filter_by(Name=form.chosenParty.data).first()
             vote = Vote(PoliticalPartyID=political_party.UId, VoteTimestamp=timestamp)
