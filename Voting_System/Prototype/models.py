@@ -57,7 +57,7 @@ class Users(UserMixin, db.Model):
 		return f"User('{self.EligibleToVote}', '{self.Email}', '{self.PwdHash}')"
 
 class Vote(db.Model):
-	VoteId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True)
+	VoteId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True, default=db.text("uuid()"))
 	PoliticalPartyID = db.Column(db.CHAR(38), db.ForeignKey('party.UId'), nullable = False)
 	VoteTimestamp = db.Column(db.DATETIME(), nullable = False)
 
