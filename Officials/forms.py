@@ -21,16 +21,19 @@ class loginForm(FlaskForm):
 
 class CreateElectionForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired('Please enter the title for the election (e.g. "General Election 2019")')])
-    description = StringField('Description', validators=[DataRequired()])
-    submit = SubmitField('Add Candidates')
+    candidate1 = StringField('Candidate 1', validators=[DataRequired()])
+    candidate2 = StringField('Candidate 2', validators=[DataRequired()])
+    candidate3 = StringField('Candidate 3')
+    submit = SubmitField('Create Election')
 
     def validate_title(self, title):
         election_title = Election.query.filter_by(title=title.data).first()
         if election_title:
             raise ValidationError('This title is already in use')
 
-class add_candidate_form(FlaskForm):
-    title = StringField('Title of Election', validators=[DataRequired()])
-    name = StringField('Name', validators=[DataRequired()])
-    party = StringField('Party', validators=[DataRequired()])
-    submit = SubmitField('Add this Candidates')
+# class add_candidate_form(FlaskForm):
+#     title = StringField('Title of Election', validators=[DataRequired()])
+#     candidate1 = StringField('Candidate 1', validators=[DataRequired()])
+#     candidate2 = StringField('Candidate 2', validators=[DataRequired()])
+#     candidate3 = StringField('Candidate 3', validators=[DataRequired()])
+#     submit = SubmitField('Add this Candidates')
