@@ -15,7 +15,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
 @app.route("/")
-@app.route("/index", methods=['GET', 'POST'])
+@app.route("/index.html", methods=['GET', 'POST'])
 def index():
     return render_template('index.html', title="Online Vote System")
 
@@ -54,23 +54,23 @@ def register():
 def vote():
     if current_user.is_authenticated:
         if current_user.check_vote_eligibility() & current_user.check_has_voted():
-            flash(db.session.query(PoliticalParty).first())
             form = SubmitVoteForm()
             form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
             parties = PoliticalParty.query.all()
             return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
-        if request.method == 'POST':
-            timestamp = datetime.datetime.now()
-            political_party = db.session.query(PoliticalParty).filter_by(Name=form.chosenParty.data).first()
-            vote = Vote(PoliticalPartyID=political_party.UId, VoteTimestamp=timestamp)
-            db.session.add(vote)
-            flash("Thank you for voting " + form.chosenParty.data)
-            return redirect(url_for('index'))
         else:
             return redirect(url_for('unauthorised'))
+    elif request.method == 'POST':
+        timestamp = datetime.datetime.now()
+        political_party = db.session.query(PoliticalParty).filter_by(Name=form.chosenParty.data).first()
+        vote = Vote(PoliticalPartyID=political_party.UId, VoteTimestamp=timestamp)
+        db.session.add(vote)
+        flash("Thank you for voting " + form.chosenParty.data)
+        db.session.commit()
+        return redirect(url_for('index'))
     else:
         flash("Please login to access this page")
-        return redirect(url_for('login'))
+        return redirect(url_for('login')) 
 
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():
