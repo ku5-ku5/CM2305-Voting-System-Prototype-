@@ -1,10 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
-<br>
-<h1> Register: </h1>
-<br>
-<form method="POST" action="">
+<div class="content-section">
+  <form method="POST" action="">
   {{ form.hidden_tag() }}
+  <fieldset class="form-group">
+    <legend class="border-bottom mb-4">Register to vote</legend>
+
   <section class=""> <!-- Register First Name -->
     {{ form.firstName.label }} {{ form.firstName}}
     {% for error in form.firstName.errors %}
@@ -27,7 +28,7 @@
   </section>
   <br>
   <section class=""> <!-- Password Field -->
-    {{ form.password.label }} {{ form.password}} 
+    {{ form.password.label }} {{ form.password}}
     {% for error in form.password.errors %}
       <span style="color: green;">[{{ error }}]</span>
     {% endfor %}

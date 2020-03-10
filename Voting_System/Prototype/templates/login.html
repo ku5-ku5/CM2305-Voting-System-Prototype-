@@ -1,43 +1,63 @@
 {% extends "layout.html" %}
 {% block content %}
-<br>
-<h1> Login: </h1>
+<div class="content-section">
 <form action="" method="POST">
-  {{ form.csrf_token }}
-  <br><br>
-  <section class="">
-    {{ form.email.label }} {{ form.email }}
-    {% for error in form.email.errors %}
-      <span style="color: blue;">[{{ error }}]</span>
-    {% endfor %}
-  </section>
-  <br>
-  <section class="">
-    {{ form.password.label }} {{ form.password }}
-    {% for error in form.password.errors %}
-      <span style="color: blue;">[{{ error }}]</span>
-    {% endfor %}
-  </section>
-  <br>
-  <div class="">
-    <span title="This is a basic anti-spam bot feature. The bot will see the field name is called 'useremail' and therefore will fill this in with an email, which will then cause the login not to proceed as the field needs to be blank."> {{ form.useremail.label }} </span>
-    <span title="This is a basic anti-spam bot feature. The bot will see the field name is called 'useremail' and therefore will fill this in with an email, which will then cause the login not to proceed as the field needs to be blank.">{{ form.useremail}}</span>
-    {% for error in form.useremail.errors %}
-    <!-- Look at making this hidden potentially? -->
-    <span style="color: blue;">[{{ error }}]</span>
-    {% endfor %}
-  <br>
-  <br>
-  <section class="">
-    {{ form.submit() }}
-  </section>
+  {{ form.hidden_tag() }}
+  <fieldset class="form-group">
+    <legend class="border-bottom mb-4">Log In</legend>
+<!-- using bootstap for clearer error messages and more aestetically pleasing UI -->
+<!-- The email field of the login form -->
+    <div class="form-group">
+      {{ form.email.label}}
+      {% if form.email.errors %}
+        {{ form.email(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.email.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+      {% else %}
+        {{ form.email(class="form-control form-control-lg") }}
+      {% endif %}
+    </div>
+
+<!-- The password field of the login form -->
+  <div class="form-group">
+    {{ form.password.label}}
+    {% if form.password.errors %}
+      {{ form.password(class="form-control form-control-lg is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.password.errors %}
+          <span>{{ error }}</span>
+            {% endfor %}
+      </div>
+    {% else %}
+      {{ form.password(class="form-control form-control-lg") }}
+    {% endif %}
+  </div>
+
+<!-- This is implemented as a measure to stop spam bots from accessing the vote
+  page -->
+  <div>
+    {{ form.useremail.label }}
+    {{ form.useremail}}
+    <br>
+    <small>* This is a basic anti-spam bot feature. The bot will see the field name is called
+      'useremail' and therefore will fill this in with an email, which will then cause the login
+       not to proceed as the field needs to be blank *</small>
+      </div>
+</fieldset>
+
+  <div class="form-group">
+    {{ form.submit(class="btn btn-outline-info") }}
+  </div>
 </form>
-<center><button> <a class="" href="/admin">Admin Login</a></button></center>
-<br><br>
-<center><button> <a class="" href="/official">Official Login</a></button></center>
-<br>
-<h1> Hover over for more information</h1>
+</div>
 
-<a href="{{ url_for('index') }}"><p>Back to Home</p>
-
+<!-- If user clicks login by mistake, there is a quick link to the register page -->
+<div class="border-top pt-3">
+  <small class="text-muted">
+    You'll need to register before you log in. <a class="ml-2" href="{{ url_for('register') }}">Sign Up Now</a>
+  </small>
+</div>
 {% endblock content %}
