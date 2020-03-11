@@ -1,5 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
+<!-- If user clicks login by mistake, there is a quick link to the register page -->
+<div>
+  <p class="text-muted">
+    You'll need to register before you log in. <a class="ml-2" href="{{ url_for('register') }}">Sign Up Now</a>
+  </p>
+</div>
+
 <div class="content-section">
 <form action="" method="POST">
   {{ form.hidden_tag() }}
@@ -54,10 +61,5 @@
 </form>
 </div>
 
-<!-- If user clicks login by mistake, there is a quick link to the register page -->
-<div class="border-top pt-3">
-  <small class="text-muted">
-    You'll need to register before you log in. <a class="ml-2" href="{{ url_for('register') }}">Sign Up Now</a>
-  </small>
-</div>
+
 {% endblock content %}

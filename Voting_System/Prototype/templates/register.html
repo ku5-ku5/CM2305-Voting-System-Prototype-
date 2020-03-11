@@ -1,51 +1,100 @@
 {% extends "layout.html" %}
 {% block content %}
+
+<!--if user already has an account then there's a quick link
+to the login page -->
+<div
+  <p class="text-muted">
+    If you're already registered,<a class="ml-2" href="{{ url_for('login') }}">Click Here to Log-In</a>
+  </p>
+</div>
+
 <div class="content-section">
   <form method="POST" action="">
   {{ form.hidden_tag() }}
   <fieldset class="form-group">
     <legend class="border-bottom mb-4">Register to vote</legend>
 
-  <section class=""> <!-- Register First Name -->
-    {{ form.firstName.label }} {{ form.firstName}}
-    {% for error in form.firstName.errors %}
-      <span style="color: green;">[{{ error }}]</span>
-    {% endfor %}
-  </section>
-  <br> <!-- Adding Line Breaks so the form is easier to read -->
-  <section class=""> <!-- Surname Field -->
-    {{ form.surname.label }} {{ form.surname}}
-    {% for error in form.surname.errors %}
-      <span style="color: green;">[{{ error }}]</span>
-    {% endfor %}
-  </section>
-  <br>
-  <section class=""> <!-- Email Field -->
-    {{ form.email.label }} {{ form.email}}
-    {% for error in form.email.errors %}
-      <span style="color: green;">[{{ error }}]</span>
-    {% endfor %}
-  </section>
-  <br>
-  <section class=""> <!-- Password Field -->
-    {{ form.password.label }} {{ form.password}}
-    {% for error in form.password.errors %}
-      <span style="color: green;">[{{ error }}]</span>
-    {% endfor %}
-  </section>
-  <br>
-  <section class=""> <!-- Verify Password Field -->
-    {{ form.passwordVerify.label }} {{ form.passwordVerify}}
-    {% for error in form.passwordVerify.errors %}
-      <span style="color: green;">[{{ error }}]</span>
-    {% endfor %}
-  </section>
-  <br>
-  <section class="">
-    {{ form.submit() }}
-  </section>
-</form>
+<!-- first name field -->
+    <div class="form-group">
+      {{ form.firstName.label}}
+      {% if form.firstName.errors %}
+        {{ form.firstName(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.firstName.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+      {% else %}
+        {{ form.firstName(class="form-control form-control-lg") }}
+      {% endif %}
+    </div>
 
-<a href="{{ url_for('index') }}"><p>Back to Home</p>
+<!-- Surname Field -->
+    <div class="form-group">
+      {{ form.surname.label}}
+      {% if form.surname.errors %}
+        {{ form.surname(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.surname.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+      {% else %}
+        {{ form.surname(class="form-control form-control-lg") }}
+      {% endif %}
+    </div>
+
+<!-- email Field -->
+    <div class="form-group">
+      {{ form.email.label}}
+      {% if form.email.errors %}
+        {{ form.email(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.email.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.email(class="form-control form-control-lg") }}
+      {% endif %}
+    </div>
+
+<!-- password Field -->
+  <div class="form-group">
+    {{ form.password.label}}
+    {% if form.password.errors %}
+      {{ form.password(class="form-control form-control-lg is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.password.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% else %}
+      {{ form.password(class="form-control form-control-lg") }}
+    {% endif %}
+  </div>
+
+<!-- The user must verify their password -->
+  <div class="form-group">
+    {{ form.passwordVerify.label}}
+    {% if form.passwordVerify.errors %}
+      {{ form.passwordVerify(class="form-control form-control-lg is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.passwordVerify.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% else %}
+      {{ form.passwordVerify(class="form-control form-control-lg") }}
+    {% endif %}
+  </div>
+</fieldset>
+
+  <div class="form-group">
+    {{ form.submit(class="btn btn-outline-info") }}
+  </div>
+</form>
+</div>
 
 {% endblock content %}
