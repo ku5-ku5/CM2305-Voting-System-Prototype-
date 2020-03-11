@@ -10,7 +10,9 @@ from Prototype import app, db
 from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
 from Prototype.models import Users, PoliticalParty, Vote
 from flask_login import login_user, current_user, logout_user, login_required
-
+import pyqrcode
+import onetimepass
+from io import BytesIO
 
 @app.before_request
 def make_session_permanent():
@@ -45,7 +47,8 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash("Account Created, You can now log in", 'success')
-        return redirect(url_for('login'))
+        session['email'] = user.Email
+        return redirect(url_for('two_factor_setup'))
     return render_template('register.html', title="Register" ,form=form)
 
 @app.route("/vote", methods=['GET','POST'])
@@ -66,6 +69,35 @@ def vote():
     else:
         flash("Please login to access this page")
         return redirect(url_for('login'))
+
+#USERS ARE REDIRECTED TO 2FA PAGE WHEN THEY REGISTER
+@app.route("/twofactor")
+def two_factor_setup():
+	if 'email' not in session:
+		return redirect(url_for('index'))
+	user = Users.query.filter_by(Email=session['email']).first()
+	if user is None:
+		return redirect(url_for('index'))
+	return render_template('two-factor-setup.html', title='2FA')
+
+#THIS GENERATES THE QR CODE FOR THE 2FA
+@app.route("/qrcode")
+def qrcode():
+	if 'email' not in session:
+		abort(404)
+	user = Users.query.filter_by(Email=session['email']).first()
+	if user is None:
+		abort(404)
+	del session['email']
+
+	url = pyqrcode.create(user.get_totp_uri())
+	stream = BytesIO()
+	url.svg(stream, scale=5)
+	return stream.getvalue(), 200, {
+        'Content-Type': 'image/svg+xml',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'}
 
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():

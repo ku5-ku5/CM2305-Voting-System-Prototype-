@@ -43,6 +43,21 @@
     {% endif %}
   </div>
 
+  <!-- This is where the users enter their one time password -->
+    <div class="form-group">
+      {{ form.otp_secret.label}}
+      {% if form.otp_secret.errors %}
+        {{ form.otp_secret(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.otp_secret.errors %}
+            <span>{{ error }}</span>
+              {% endfor %}
+        </div>
+      {% else %}
+        {{ form.otp_secret(class="form-control form-control-lg") }}
+      {% endif %}
+    </div>
+
 <!-- This is implemented as a measure to stop spam bots from accessing the vote
   page -->
   <div>
@@ -53,6 +68,8 @@
       'useremail' and therefore will fill this in with an email, which will then cause the login
        not to proceed as the field needs to be blank *</small>
       </div>
+
+
 </fieldset>
 
   <div class="form-group">
