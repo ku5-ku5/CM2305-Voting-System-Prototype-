@@ -26,29 +26,27 @@ def index():
 def login():
     form = loginForm()
     if request.method == 'POST':
-        user = Users.query.filter_by(email=form.email.data).first()
+        user = Users.query.filter_by(Email=form.email.data).first()
         if user is not None and user.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()):
             login_user(user)
-            flash("Login successful!!")
-            return redirect(url_for('home'))
+            flash("You are now Logged In", "success")
+            return redirect(url_for('index'))
         else:
-            flash("Invalid username or password!")
+            flash("Invalid Email or Password. Please try again", "danger")
             return redirect(url_for('login'))
     return render_template('login.html', title="Online Vote - Login",form=form)
 
 @app.route("/register", methods=['GET','POST'])
 def register():
     form = registrationForm()
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            password_hash = hashlib.sha256(form.password.data.encode()).hexdigest()
-            user = Users(email=form.email.data, PwdHash=password_hash)
-            db.session.add(user)
-            db.session.commit()
-            return redirect(url_for('login'))
-        else:
-            return flash("Unknown error please try again later")
-    return render_template('register.html', title="Online Vote - Register",form=form)
+    if form.validate_on_submit():
+        hashed_password = hashlib.sha256(form.password.data.encode()).hexdigest()
+        user = Users(Email=form.email.data, PwdHash=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash("Account Created, You can now log in", 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html', title="Register" ,form=form)
 
 @app.route("/vote", methods=['GET','POST'])
 def vote():
@@ -79,3 +77,8 @@ def home():
         return render_template('home.html', title="User Home Page")
     else:
         return redirect(url_for('unauthorised'))
+
+@app.route("/logout")
+def logout():
+	logout_user()
+	return redirect(url_for('index'))

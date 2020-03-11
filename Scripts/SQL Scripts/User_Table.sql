@@ -5,5 +5,5 @@ CREATE TABLE Users(
   PwdHash VARCHAR(255),
   IsOfficial TINYINT(1) DEFAULT 0,
   HasVoted TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (UId)
+  PRIMARY KEY (UserUId)
 );

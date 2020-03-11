@@ -1,5 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
+<!--if the user is logged in, they'll be able to access the vote page-->
+{% if current_user.is_authenticated %}
+  <button><a class="" href="{{ url_for('vote') }}">Vote Here</a></button>
+
+<!-- This is what the user sees before logging in -->
+{% else %}
 <h2>Welcome to our Online Voting System</h2>
 <p>Please Login or Register to Vote</p>
 
@@ -7,5 +13,5 @@
 <br>
 <br>
 <button><a class="" href="{{ url_for('register') }}">Register</a></button>
-
+{% endif %}
 {% endblock content %}

@@ -18,7 +18,7 @@ class PoliticalParty(db.Model):
 class Users(UserMixin, db.Model):
 	UserUId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True, default=db.text("uuid()"))
 	EligibleToVote = db.Column(TINYINT(1), default = 0)
-	email = db.Column(db.String(255), unique = True, nullable = False)
+	Email = db.Column(db.String(255), unique = True, nullable = False)
 	PwdHash = db.Column(db.String(255), nullable = False)
 	HasVoted = db.Column(TINYINT(1), default = 0)
 
@@ -37,10 +37,10 @@ class Users(UserMixin, db.Model):
 
 	def check_vote_eligibility(self):
 		return self.EligibleToVote == 1
-	
+
 	def check_has_voted(self):
 		return self.HasVoted == 0
-    			
+
 
 	@login_manager.user_loader
 	def load_user(UserUId):
