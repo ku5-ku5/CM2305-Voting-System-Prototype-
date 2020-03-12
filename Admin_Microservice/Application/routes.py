@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
 from Application import app, db
 from Application.forms import loginForm, CreateElectionForm
-from Application.models import Users, PoliticalParty, Officials
+from Application.models import Users, PoliticalParty, Officials, Vote
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
@@ -41,8 +41,8 @@ def official():
             return render_template("official.html", title="Officials Home Page")
         elif current_user.check_admin_status():
             return redirect(url_for('admin'))
-        else:
-            return redirect(url_for('unauthorised'))
+    else:
+        return redirect(url_for('unauthorised'))
 
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():
@@ -52,3 +52,23 @@ def unauthorised():
 def createElection():
     form = CreateElectionForm()
     return render_template("election.html", title="Create Election", form=form)
+
+@app.route("/results", methods=['GET', 'POST'])
+def results():
+    #if current_user.is_authenticated:
+    #    if current_user.check_admin_status() == False:
+    votes = Vote.query.all()
+    parties = PoliticalParty.query.all()
+    results = {}
+    for party in parties:
+        results[party.Name] = 0
+
+    for vote in votes:
+        for party in parties:
+            if vote.PoliticalPartyID == party.UId:
+                results[party.Name] = results[party.Name] + 1
+    return render_template("results.html", title="Election Results", results=results)
+#        elif current_user.check_admin_status():
+#            return redirect(url_for('admin'))
+#    else:
+#        return redirect(url_for('unauthorised'))
