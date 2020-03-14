@@ -2,12 +2,14 @@
 
 import os
 from flask import render_template, url_for, request, redirect, flash
+from flask_login import login_required
 from sqlalchemy.orm import load_only
 from sqlalchemy.sql import exists
 from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
-from datetime import datetime
-from Prototype import app, db, mail
+import datetime
+import time
+from Prototype import app, db, mail, votedb
 from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
 from Prototype.models import Users, PoliticalParty, Vote
 
@@ -15,7 +17,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
 @app.route("/")
-@app.route("/index.html", methods=['GET', 'POST'])
+@app.route("/index", methods=['GET', 'POST'])
 def index():
     return render_template('index.html', title="Online Vote System")
 
@@ -51,34 +53,42 @@ def register():
     return render_template('register.html', title="Online Vote - Register",form=form)
 
 @app.route("/vote", methods=['GET','POST'])
+@login_required
 def vote():
-    if current_user.is_authenticated:
-        if current_user.check_vote_eligibility() & current_user.check_has_voted():
-            form = SubmitVoteForm()
-            form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
-            parties = PoliticalParty.query.all()
-            return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
-        else:
-            return redirect(url_for('unauthorised'))
-    elif request.method == 'POST':
-        timestamp = datetime.datetime.now()
-        political_party = db.session.query(PoliticalParty).filter_by(Name=form.chosenParty.data).first()
-        vote = Vote(PoliticalPartyID=political_party.UId, VoteTimestamp=timestamp)
-        db.session.add(vote)
-        flash("Thank you for voting " + form.chosenParty.data)
-        db.session.commit()
-        return redirect(url_for('index'))
-    else:
-        flash("Please login to access this page")
-        return redirect(url_for('login')) 
+    if current_user.check_vote_eligibility() & current_user.check_has_voted():
+        form = SubmitVoteForm()
+        form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
+        parties = PoliticalParty.query.all()
+        if request.method == 'POST':
+            flash(form.chosenParty.data)
+            #if form.validate_on_submit() & len(form.chosenParty.data) > 0:
+            timestamp = datetime.datetime.now()
+            vote = Vote(PoliticalPartyID=form.chosenParty.data, VoteTimestamp=timestamp)
+            cursor = votedb.cursor()
+            sql = "INSERT INTO `votedb`.`vote` (`VoteId`,`PoliticalPartyID`,`VoteTimestamp`)VALUES (UUID(), %s, %s);"
+            date = datetime.datetime.now()
+            #val = (form.chosenParty.data, date)
+            #cursor.execute(sql, val)
+            db.session.add(vote)
+            flash("Thank you for voting " + form.chosenParty.data)
+            db.session.commit()
+            return redirect(url_for('vote_confirmed'))
+        return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
+
 
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():
     return render_template('unauthorised.html', title="Unauthorised")
 
 @app.route("/home", methods=['GET', 'POST'])
+@login_required
 def home():
-    if current_user.is_authenticated:
-        return render_template('home.html', title="User Home Page")
-    else:
-        return redirect(url_for('unauthorised'))
+    return render_template('home.html', title="User Home Page")
+
+@app.errorhandler(401)
+def unauthorised():
+    return render_template('unauthorised.html', title="Unauthorised")
+
+@app.route("/vote_confirmation", methods=['GET', 'POST'])
+def vote_confirmed():
+    return render_template('vote_confirmation.html', title="Thank you!")

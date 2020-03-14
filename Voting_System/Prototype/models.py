@@ -58,7 +58,7 @@ class Users(UserMixin, db.Model):
 
 class Vote(db.Model):
 	VoteId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True, default=db.text("uuid()"))
-	PoliticalPartyID = db.Column(db.CHAR(38), db.ForeignKey('party.UId'), nullable = False)
+	PoliticalPartyID = db.Column(db.CHAR(38), db.ForeignKey('political_party.UId'), nullable = False)
 	VoteTimestamp = db.Column(db.DATETIME(), nullable = False)
 
 	def __repr__(self):
