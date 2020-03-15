@@ -58,12 +58,15 @@ def register():
 def vote():
     if current_user.check_vote_eligibility() & current_user.check_has_voted():
         form = SubmitVoteForm()
+        #generates a form based on the political parties in the political party table
         form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
         parties = PoliticalParty.query.all()
         if request.method == 'POST':
             timestamp = datetime.datetime.now()
+            #creates vote object with the users choice of political party
             vote = Vote(PoliticalPartyID=form.chosenParty.data, VoteTimestamp=timestamp)
             db.session.add(vote)
+            #executes a custom sql statement to make the user HasVoted column = 1
             current_user.user_has_voted()
             db.session.commit()
             return redirect(url_for('vote_confirmed'))
