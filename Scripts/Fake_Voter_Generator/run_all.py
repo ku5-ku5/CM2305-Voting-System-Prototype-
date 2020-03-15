@@ -7,7 +7,7 @@ import time
 pwd = 'PASSWORD'
 
 votedb = mysql.connector.connect(
-    host="localhost",
+    host="127.0.0.1",
     user="root",
     port=3306,
     auth_plugin='mysql_native_password',

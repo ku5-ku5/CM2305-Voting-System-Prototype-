@@ -1,24 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
-  <div class="indexContent">
-    <div class="introText">
-      <p>For the group 16 project, we were tasked with creating a <br>
-        secure online voting system with the scope for it to be <br>
-        used in a potential general election.</center>
-      </p>
-    </div>
-    <div class="indexBoxes">
-      <div class="loginBox">
-        <center><button><a class="" href="{{ url_for('login') }}">Login</a></button></center>
-      </div>
-      <br>
-      <center><button> <a class="" href="/admin">Admin Login</a></button></center>
-      <br>
-      <center><button> <a class="" href="/official">Official Login</a></button></center>
-      <br>
-      <div class="registerBox">
-        <center><button><a class="" href="{{ url_for('register') }}">Register</a></button></center>
-      </div>
-    </div>
-  </div>
+<!--if the user is logged in, they'll be able to access the vote page-->
+{% if current_user.is_authenticated %}
+  <button><a class="" href="{{ url_for('vote') }}">Vote Here</a></button>
+
+<!-- This is what the user sees before logging in -->
+{% else %}
+<h2>Welcome to our Online Voting System</h2>
+<p>Please Login or Register to Vote</p>
+
+<button><a class="" href="{{ url_for('login') }}">Log In</a></button>
+<br>
+<br>
+<button><a class="" href="{{ url_for('register') }}">Register</a></button>
+{% endif %}
 {% endblock content %}
