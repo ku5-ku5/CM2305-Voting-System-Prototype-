@@ -4,7 +4,7 @@ import os
 from flask import render_template, url_for, request, redirect, flash
 from flask_login import login_required
 from sqlalchemy.orm import load_only
-from sqlalchemy.sql import exists
+from sqlalchemy.sql import exists, update, table, column, select, insert
 from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
 import datetime
@@ -12,9 +12,10 @@ import time
 from Prototype import app, db, mail, votedb
 from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
 from Prototype.models import Users, PoliticalParty, Vote
-
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
+from sqlalchemy.sql.schema import MetaData, Table
+from sqlalchemy import engine
 
 @app.route("/")
 @app.route("/index", methods=['GET', 'POST'])
@@ -60,34 +61,33 @@ def vote():
         form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
         parties = PoliticalParty.query.all()
         if request.method == 'POST':
-            flash(form.chosenParty.data)
-            #if form.validate_on_submit() & len(form.chosenParty.data) > 0:
             timestamp = datetime.datetime.now()
             vote = Vote(PoliticalPartyID=form.chosenParty.data, VoteTimestamp=timestamp)
-            cursor = votedb.cursor()
-            sql = "INSERT INTO `votedb`.`vote` (`VoteId`,`PoliticalPartyID`,`VoteTimestamp`)VALUES (UUID(), %s, %s);"
-            date = datetime.datetime.now()
-            #val = (form.chosenParty.data, date)
-            #cursor.execute(sql, val)
             db.session.add(vote)
-            flash("Thank you for voting " + form.chosenParty.data)
+            current_user.user_has_voted()
             db.session.commit()
             return redirect(url_for('vote_confirmed'))
         return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
-
+    else:
+        return redirect(url_for('unauthorised'))
 
 @app.route("/unauthorised", methods=['GET','POST'])
 def unauthorised():
     return render_template('unauthorised.html', title="Unauthorised")
+
 
 @app.route("/home", methods=['GET', 'POST'])
 @login_required
 def home():
     return render_template('home.html', title="User Home Page")
 
+@app.errorhandler(403)
+def unauthorised_403(e):
+    return render_template('unauthorised.html', title="Unauthorised"), 403
+
 @app.errorhandler(401)
-def unauthorised():
-    return render_template('unauthorised.html', title="Unauthorised")
+def unauthorised_401(e):
+    return render_template('unauthorised.html', title="Unauthorised"), 401
 
 @app.route("/vote_confirmation", methods=['GET', 'POST'])
 def vote_confirmed():

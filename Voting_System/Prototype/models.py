@@ -43,6 +43,11 @@ class Users(UserMixin, db.Model):
 	def check_vote_eligibility(self):
 		return self.EligibleToVote == 1
 	
+	def user_has_voted(self):
+		UId = self.UserUId
+		return db.engine.execute("update votedb.users set HasVoted = 1 WHERE UserUId = '" + str(UId) + "';")
+    		
+	
 	#The below returns true if the user hasnt voted 
 	def check_has_voted(self):
 		return self.HasVoted == 0
