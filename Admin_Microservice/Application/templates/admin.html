@@ -1,8 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
-	<h1>Admin Home Page</h1>
-	<center><button> <a class="" href="/createElection">View<br>Create<br>Election</a></button></center>
-	<button type="submit">Generate<br>Report</button>
-	<center><button> <a class="" href="">View<br>Results</a></button></center>
+
+{% if current_user.is_authenticated %}
+<p>create an election below</p>
+<button><a class="" href="{{ url_for('createElection') }}">Create Election</a></button>
+<br>
+{% else %}
+<p>To access Officials features, please register or sign in below</p>
+<button><a class="" href="{{ url_for('register') }}">Register</a></button>
+<button><a class="" href="{{ url_for('login') }}">Sign In</a></button>
+{% endif %}
 
 {% endblock content %}

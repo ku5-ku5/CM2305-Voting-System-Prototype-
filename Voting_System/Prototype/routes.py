@@ -2,17 +2,25 @@
 
 import os
 from flask import render_template, url_for, request, redirect, flash, session
+from flask_login import login_required
 from datetime import timedelta
 from sqlalchemy.orm import load_only
+from sqlalchemy.sql import exists, update, table, column, select, insert
 from werkzeug.security import generate_password_hash, check_password_hash
 import hashlib
-from Prototype import app, db
+import datetime
+import time
+from Prototype import app, db, mail, votedb
 from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
 from Prototype.models import Users, PoliticalParty, Vote
 from flask_login import login_user, current_user, logout_user, login_required
+from flask_mail import Message
+from sqlalchemy.sql.schema import MetaData, Table
+from sqlalchemy import engine
 import pyqrcode
 import onetimepass
 from io import BytesIO
+from werkzeug import abort
 
 @app.before_request
 def make_session_permanent():
@@ -41,34 +49,38 @@ def login():
 @app.route("/register", methods=['GET','POST'])
 def register():
     form = registrationForm()
-    if form.validate_on_submit():
-        hashed_password = hashlib.sha256(form.password.data.encode()).hexdigest()
-        user = Users(Email=form.email.data, PwdHash=hashed_password)
-        db.session.add(user)
-        db.session.commit()
-        flash("Account Created, You can now log in", 'success')
-        session['email'] = user.Email
-        return redirect(url_for('two_factor_setup'))
+    if request.method == 'POST':
+        if form.validate_on_submit()& (db.session.query(db.session.query(Users).filter_by(Email=form.email.data).exists()).scalar() == False):
+            hashed_password = hashlib.sha256(form.password.data.encode()).hexdigest()
+            user = Users(Email=form.email.data, PwdHash=hashed_password)
+            db.session.add(user)
+            db.session.commit()
+            flash("Account Created, You can now log in", 'success')
+            session['email'] = user.Email
+            return redirect(url_for('two_factor_setup'))
     return render_template('register.html', title="Register" ,form=form)
 
+
 @app.route("/vote", methods=['GET','POST'])
+@login_required
 def vote():
-    if current_user.is_authenticated:
-        if current_user.check_vote_eligibility() & current_user.check_has_voted():
-            form = SubmitVoteForm()
-            form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
-            parties = PoliticalParty.query.all()
-            return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
+    if current_user.check_vote_eligibility() & current_user.check_has_voted():
+        form = SubmitVoteForm()
+        #generates a form based on the political parties in the political party table
+        form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
+        parties = PoliticalParty.query.all()
         if request.method == 'POST':
-            vote = form.chosenParty.data
+            timestamp = datetime.datetime.now()
+            #creates vote object with the users choice of political party
+            vote = Vote(PoliticalPartyID=form.chosenParty.data, VoteTimestamp=timestamp)
             db.session.add(vote)
-            flash("Thank you for voting " + form.chosenParty.data)
-            return redirect(url_for('home'))
-        else:
-            return redirect(url_for('unauthorised'))
+            #executes a custom sql statement to make the user HasVoted column = 1
+            current_user.user_has_voted()
+            db.session.commit()
+            return redirect(url_for('vote_confirmed'))
+        return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
     else:
-        flash("Please login to access this page")
-        return redirect(url_for('login'))
+        return redirect(url_for('unauthorised'))
 
 #USERS ARE REDIRECTED TO 2FA PAGE WHEN THEY REGISTER
 @app.route("/twofactor")
@@ -103,14 +115,26 @@ def qrcode():
 def unauthorised():
     return render_template('unauthorised.html', title="Unauthorised")
 
+
 @app.route("/home", methods=['GET', 'POST'])
+@login_required
 def home():
-    if current_user.is_authenticated:
-        return render_template('home.html', title="User Home Page")
-    else:
-        return redirect(url_for('unauthorised'))
+    return render_template('home.html', title="User Home Page")
+
+@app.errorhandler(403)
+def unauthorised_403(e):
+    return render_template('unauthorised.html', title="Unauthorised"), 403
+
+@app.errorhandler(401)
+def unauthorised_401(e):
+    return render_template('unauthorised.html', title="Unauthorised"), 401
+
+@app.route("/vote_confirmation", methods=['GET', 'POST'])
+def vote_confirmed():
+    return render_template('vote_confirmation.html', title="Thank you!")
 
 @app.route("/logout")
 def logout():
 	logout_user()
 	return redirect(url_for('index'))
+

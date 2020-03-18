@@ -5,5 +5,5 @@ CREATE TABLE Officials(
   Email VARCHAR(255) NOT NULL,
   Pwd VARCHAR(255),
   IsAdmin TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (UId)
+  PRIMARY KEY (OfficialUId)
 );

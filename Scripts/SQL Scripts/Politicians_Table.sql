@@ -1,4 +1,4 @@
-CREATE TABLE Politicial_Party( 
+CREATE TABLE Political_Party(
   UId CHAR(38) NOT NULL,
   Name VARCHAR(255) NOT NULL,
   PRIMARY KEY (UId)
