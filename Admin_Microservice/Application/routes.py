@@ -60,14 +60,15 @@ def results():
     votes = Vote.query.all()
     parties = PoliticalParty.query.all()
     results = {}
+    vote_total = 0
     for party in parties:
         results[party.Name] = 0
-
     for vote in votes:
         for party in parties:
             if vote.PoliticalPartyID == party.UId:
                 results[party.Name] = results[party.Name] + 1
-    return render_template("results.html", title="Election Results", results=results)
+                vote_total += 1
+    return render_template("results.html", title="Election Results", results=results, total=vote_total)
 #        elif current_user.check_admin_status():
 #            return redirect(url_for('admin'))
 #    else:

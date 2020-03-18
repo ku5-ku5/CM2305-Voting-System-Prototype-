@@ -28,3 +28,7 @@ p {font-family: Tahoma, Geneva, sans-serif;
 .flashes {
 	text-decoration: none;
 }
+
+chart-area {
+	width: 100%
+}
