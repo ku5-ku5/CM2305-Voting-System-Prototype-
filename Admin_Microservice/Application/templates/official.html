@@ -2,6 +2,5 @@
 {% block content %}
 	<h1> Officials Page: </h1>
 	<!-- Need to add code to generate buttons based on user permissions assuming all officials can generate a report then admins get buttons to generate a new election -->
-
-	<center><button> <a class="" href="">View<br>Results</a></button></center>
+	<center><button> <a class="" href="{{ url_for('results')}}">View Results</a></button></center>
 {% endblock content %}

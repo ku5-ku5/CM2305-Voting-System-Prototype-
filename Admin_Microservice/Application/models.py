@@ -13,7 +13,7 @@ class PoliticalParty(db.Model):
 
 class Users(UserMixin, db.Model):
 	UserUId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True, default=db.text("uuid()"))
-	EligibleToVote = db.Column(TINYINT(1), default = 0)
+	EligibleToVote = db.Column(TINYINT(1), default = 1)
 	email = db.Column(db.String(255), unique = True, nullable = False)
 	PwdHash = db.Column(db.String(255), nullable = False)
 	HasVoted = db.Column(TINYINT(1), default = 0)
@@ -50,7 +50,7 @@ class Officials(UserMixin, db.Model):
 
 	def verify_password(self, password):
 		return self.PwdHash == password
-	
+
 	def check_admin_status(self):
 		if IsAdmin == 1:
 			return True
@@ -63,3 +63,9 @@ class Officials(UserMixin, db.Model):
 
 	def __repr__(self):
 		return f"User('{self.FirstName}','{self.Surname}', '{self.Email}', '{self.PwdHash}', '{self.IsAdmin}')"
+
+class Election(db.Model, UserMixin):
+	title = db.Column(db.String(60), primary_key=True)
+	description = db.Column(db.String(60))
+	startDate = db.Column(db.DATETIME)
+	endDate = db.Column(db.DATETIME)
