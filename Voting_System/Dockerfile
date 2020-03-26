@@ -1,7 +1,11 @@
-FROM ubuntu:18.04
+FROM python:3.6.8
 
-RUN apt-get update -y && \
-    apt-get install -y python-pip python-dev
+LABEL Author="Rhys Connor"
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV FLASK_APP "run.py"
+ENV FLASK_ENV "development"
+ENV FLASK_DEBUG True 
 
 # We copy just the requirements.txt first to leverage Docker cache
 COPY ./requirements.txt /Voting_System/requirements.txt
@@ -9,11 +13,13 @@ COPY ./requirements.txt /Voting_System/requirements.txt
 WORKDIR /Voting_System
 
 EXPOSE 5000
+EXPOSE 3306
+
+RUN pip install --upgrade pip
+RUN pip install pipenv
 
 RUN pip install -r requirements.txt
 
-COPY . /Voting_System
+ADD . /Voting_System
 
-ENTRYPOINT [ "python" ]
-
-CMD [ "run.py" ]
+CMD flask run --host=0.0.0.0

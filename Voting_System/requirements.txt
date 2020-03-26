@@ -69,7 +69,6 @@ PyQRCode==1.2.1
 pyrsistent==0.15.4
 python-dateutil==2.8.0
 pytz==2019.3
-pywin32==225
 pywinpty==0.5.5
 pyzmq==18.1.0
 qrcode==6.1
