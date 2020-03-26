@@ -4,7 +4,7 @@ import random
 import datetime
 import time
 
-pwd = 'PASSWORD'
+pwd = ''
 
 votedb = mysql.connector.connect(
     host="127.0.0.1",
@@ -60,14 +60,14 @@ def create_tables():
             print(err)
 
         try:
-            table_cursor.execute("CREATE TABLE `Vote` (VoteId CHAR(38) NOT NULL UNIQUE,PoliticalPartyID CHAR(38) NOT NULL,VoteTimestamp DATETIME NOT NULL,PRIMARY KEY (VoteId), ElectionId INT NOT NULL, FOREIGN KEY (ElectionId) REFERENCES Elections(Id), FOREIGN KEY (PoliticalPartyID) REFERENCES Political_Party(UId));")
+            table_cursor.execute("CREATE TABLE `Vote` (VoteId CHAR(38) NOT NULL UNIQUE,PoliticalPartyID CHAR(38) NOT NULL,VoteTimestamp DATETIME NOT NULL,PRIMARY KEY (VoteId), ElectionId INT DEFAULT NULL, FOREIGN KEY (ElectionId) REFERENCES Elections(Id) DEFAULT 0, FOREIGN KEY (PoliticalPartyID) REFERENCES Political_Party(UId));")
             print("Vote table created")
         except mysql.connector.Error as err:
             print("Failed to create the Vote table")
             print(err)
 
         try:
-            table_cursor.execute("CREATE TABLE `Users` (UserUId CHAR(38) NOT NULL UNIQUE,EligibleToVote TINYINT(1) DEFAULT 0,Email VARCHAR(255) NOT NULL UNIQUE,PwdHash VARCHAR(255),HasVoted TINYINT(1) DEFAULT 0,PRIMARY KEY (UserUId));")
+            table_cursor.execute("CREATE TABLE `Users` (UserUId CHAR(38) NOT NULL UNIQUE,EligibleToVote TINYINT(1) DEFAULT 0,Email VARCHAR(255) NOT NULL UNIQUE,PwdHash VARCHAR(255),HasVoted TINYINT(1) DEFAULT 0, otp_secret varchar(16), PRIMARY KEY (UserUId));")
             print("Users table created")
         except mysql.connector.Error as err:
             print("Failed to create users table")
