@@ -1,36 +1,30 @@
+<!-- Here, the Official can create new elections and add candidates -->
 {% extends "layout.html" %}
 {% block content %}
+
+<!-- The official will be able to name the election and add 3 candidates -->
 	<legend> Create Election: </legend>
 	<form action="" method="POST">
 		{{ form.csrf_token }}
-		<div class="form-group">
-				{{ form.title.label }}
-				{% if form.title.errors %}
-						{{ form.title(class="form-control form-control-lg is-invalid") }}
-						<div class="invalid-feedback">
-								{% for error in form.title.errors %}
-										<span>{{ error }}</span>
-								{% endfor %}
-						</div>
-				{% else %}
-						{{ form.title }}
-				{% endif %}
+		<div>
+				{{ form.title.label }} {{ form.title }}
 		</div>
 
 		<div>
-			{{ form.description.label }} {{ form.description }}
+			{{ form.candidate1.label }} {{ form.candidate1 }}
 		</div>
 
 		<div>
-			{{ form.startDate.label }} {{ form.startDate }}
+			{{ form.candidate2.label }} {{ form.candidate2 }}
 		</div>
 
-    <div>
-			{{ form.endDate.label }} {{ form.label }}
+		<div>
+			{{ form.candidate3.label }} {{ form.candidate3 }}
 		</div>
 
 		<div>
 			{{ form.submit() }}
 		</div>
 	</form>
+	
 {% endblock content %}

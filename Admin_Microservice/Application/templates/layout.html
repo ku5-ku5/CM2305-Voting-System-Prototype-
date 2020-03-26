@@ -9,22 +9,11 @@
 <body>
 
 	<h1>Online Voting System</h1>
-	
+
 	<div id="content">
 		{% block content %}
 		{% endblock content %}
 	</div>
 
-	<div class="flash">
-	{% with messages = get_flashed_messages() %}
-	{% if messages %}
-		<ul class=flashes>
-			{% for message in messages %}
-				<li>{{ message }}</li>
-			{% endfor %}
-		</ul>
-		{% endif %}
-		{% endwith %}
-	</div>
 </body>
 </html>

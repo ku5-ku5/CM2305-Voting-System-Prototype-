@@ -4,68 +4,26 @@ from flask_login import UserMixin
 from sqlalchemy.dialects.mysql import TINYINT
 from sqlalchemy.dialects.postgresql import UUID
 
-class PoliticalParty(db.Model):
-	UId = db.Column(UUID(as_uuid = True), unique = True, primary_key = True)
-	Name = db.Column(db.String(255), nullable = False)
+@login_manager.user_loader
+def load_user(user_id):
+	return Official.query.get(int(user_id))
 
-	def __repr__(self):
-		return f"<PoliticalParty('{self.Name}')>"
+class Official(db.Model, UserMixin):
+		id = db.Column(db.Integer, primary_key=True)
+		email = db.Column(db.String(240), unique=True, nullable=False)
+		password = db.Column(db.String(120), nullable=False)
 
-class Users(UserMixin, db.Model):
-	UserUId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True, default=db.text("uuid()"))
-	EligibleToVote = db.Column(TINYINT(1), default = 1)
-	email = db.Column(db.String(255), unique = True, nullable = False)
-	PwdHash = db.Column(db.String(255), nullable = False)
-	HasVoted = db.Column(TINYINT(1), default = 0)
+		def __repr__(self):
+			return f"User('{self.email}')"
 
-	def __repr__(self):
-		return f"<User('{self.EligibleToVote}', '{self.Email}')>"
-
-class Vote(db.Model):
-	VoteId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True)
-	PoliticalPartyID = db.Column(UUID(as_uuid = True), db.ForeignKey('party.UId'), nullable = False)
-	#VoteStatus = db.Column(TINYINT(1), default = 0)
-	VoteTimestamp = db.Column(db.DATETIME(), nullable = False)
-
-	def __repr__(self):
-		return f"Vote('{self.VoteStatus}')"
-
-class Officials(UserMixin, db.Model):
-	OfficialUId = db.Column(UUID(as_uuid=True), unique = True, primary_key = True)
-	FirstName = db.Column(db.String(50), nullable=False)
-	Surname = db.Column(db.String(50), nullable=False)
-	email = db.Column(db.String(255), unique = True, nullable = False)
-	PwdHash = db.Column(db.String(255), nullable = False)
-	IsAdmin = db.Column(TINYINT(1), default = 0)
-
-	@property
-	def password(self):
-		raise AttributeError('password is not a readable attribute')
-
-	def get_id(self):
-		try:
-			return text_type(self.OfficialUId)
-		except AttributeError:
-			raise NotImplementedError('No `UserUId` attribute - override `get_id`')
-
-	def verify_password(self, password):
-		return self.PwdHash == password
-
-	def check_admin_status(self):
-		if IsAdmin == 1:
-			return True
-		else:
-			return False
-
-	@login_manager.user_loader
-	def load_user(OfficialUId):
-		return Officials.query.get(str(OfficialUId))
-
-	def __repr__(self):
-		return f"User('{self.FirstName}','{self.Surname}', '{self.Email}', '{self.PwdHash}', '{self.IsAdmin}')"
+		def verify_password(self, password):
+			return self.password == password
 
 class Election(db.Model, UserMixin):
 	title = db.Column(db.String(60), primary_key=True)
-	description = db.Column(db.String(60))
-	startDate = db.Column(db.DATETIME)
-	endDate = db.Column(db.DATETIME)
+	candidate1 = db.Column(db.String(60))
+	candidate2 = db.Column(db.String(60))
+	candidate3 = db.Column(db.String(60))
+
+class Candidates(db.Model, UserMixin):
+	title = db.Column(db.String(60), primary_key=True)
