@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+	<legend> Create Election: </legend>
+	<form action="" method="POST">
+		{{ form.csrf_token }}
+		<div class="form-group">
+				{{ form.title.label }}
+				{% if form.title.errors %}
+						{{ form.title(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+								{% for error in form.title.errors %}
+										<span>{{ error }}</span>
+								{% endfor %}
+						</div>
+				{% else %}
+						{{ form.title }}
+				{% endif %}
+		</div>
+
+		<div>
+			{{ form.description.label }} {{ form.description }}
+		</div>
+
+		<div>
+			{{ form.startDate.label }} {{ form.startDate }}
+		</div>
+
+    <div>
+			{{ form.endDate.label }} {{ form.label }}
+		</div>
+
+		<div>
+			{{ form.submit() }}
+		</div>
+	</form>
+{% endblock content %}
