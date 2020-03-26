@@ -8,6 +8,10 @@ from Application.forms import loginForm, CreateElectionForm, registrationForm
 from Application.generate_xml import Filename, Generate_xml
 from Application.models import Users, PoliticalParty, Officials, Vote
 from flask_login import login_user, current_user, logout_user, login_required
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import numpy as np
 
 @app.route("/")
 @app.route("/index", methods=['GET', 'POST'])
@@ -56,24 +60,30 @@ def createElection():
 
 @app.route("/results", methods=['GET', 'POST'])
 def results():
-    #if current_user.is_authenticated:
-    #    if current_user.check_admin_status() == False:
-    votes = Vote.query.all()
-    parties = PoliticalParty.query.all()
-    results = {}
-    vote_total = 0
-    for party in parties:
-        results[party.Name] = 0
-    for vote in votes:
-        for party in parties:
-            if vote.PoliticalPartyID == party.UId:
-                results[party.Name] = results[party.Name] + 1
-                vote_total += 1
-    return render_template("results.html", title="Election Results", results=results, total=vote_total)
-#        elif current_user.check_admin_status():
-#            return redirect(url_for('admin'))
-#    else:
-#        return redirect(url_for('unauthorised'))
+    if current_user.is_authenticated:
+        if current_user.check_admin_status() == False:
+            votes = Vote.query.all()
+            parties = PoliticalParty.query.all()
+            results = {}
+            for party in parties:
+                results[party.Name] = 0
+            for vote in votes:
+                for party in parties:
+                    if vote.PoliticalPartyID == party.UId:
+                        results[party.Name] = results[party.Name] + 1
+
+            y_pos = np.arange(len(results.keys()))
+            plt.bar(y_pos, results.values(), align='center', alpha=0.5)
+            plt.xticks(y_pos, results.keys())
+            plt.ylabel('Votes')
+            plt.title('Election Results')
+            plt.savefig('Application/static/images/results_plot.png')
+
+            return render_template("results.html", title="Election Results", url="/../static/images/results_plot.png")
+        elif current_user.check_admin_status():
+            return redirect(url_for('admin'))
+    else:
+        return redirect(url_for('unauthorised'))
 
 @app.route('/createAccount', methods=['GET', 'POST'])
 def createAccount():
