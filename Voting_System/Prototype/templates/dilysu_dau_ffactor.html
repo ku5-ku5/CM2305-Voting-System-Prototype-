@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Dilysu Ddau Ffactor</h1>
+<p>Lawrwythwch 'Google Authenticator' ar Google Play neu'r App Store i sganio'r cod QR</p>
+<img src="{{ url_for('qrcode') }}" alt="">
+<p>Pan rydych wedi sganio'r cod, <a href="{{ url_for('mewngofnodi') }}"> Mewngofnodwch Yma </a></p>
+
+{% endblock content %}

@@ -11,7 +11,7 @@ import hashlib
 import datetime
 import time
 from Prototype import app, db, mail, votedb
-from Prototype.forms import loginForm, registrationForm, SubmitVoteForm
+from Prototype.forms import loginForm, registrationForm, SubmitVoteForm, Mewngofnodi, Cofrestrwch, Pleidleisio
 from Prototype.models import Users, PoliticalParty, Vote
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
@@ -138,3 +138,70 @@ def logout():
 	logout_user()
 	return redirect(url_for('index'))
 
+
+#####CYMRAEG########
+@app.route('/cartref')
+def cartref():
+    return render_template('cartref.html', title='cartref')
+
+@app.route("/mewngofnodi", methods=['GET', 'POST'])
+def mewngofnodi():
+    form = Mewngofnodi()
+    if request.method == 'POST':
+        user = Users.query.filter_by(Email=form.email.data).first()
+        if user is not None and user.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()):
+            login_user(user)
+            flash("Rydych wedi mewngofnodi yn lwyddianus!", "success")
+            return redirect(url_for('cartref'))
+        else:
+            flash("Ebost neu chyfrinair anghywir", "danger")
+            return redirect(url_for('mewngofnodi'))
+    return render_template('mewngofnodi.html', title="Mewngofnodwch",form=form)
+
+@app.route("/cofrestrwch", methods=['GET','POST'])
+def cofrestrwch():
+    form = Cofrestrwch()
+    if request.method == 'POST':
+        if form.validate_on_submit()& (db.session.query(db.session.query(Users).filter_by(Email=form.email.data).exists()).scalar() == False):
+            hashed_password = hashlib.sha256(form.password.data.encode()).hexdigest()
+            user = Users(Email=form.email.data, PwdHash=hashed_password)
+            db.session.add(user)
+            db.session.commit()
+            flash("Account Created, You can now log in", 'success')
+            session['email'] = user.Email
+            return redirect(url_for('dilysu_dau_ffactor'))
+    return render_template('cofrestrwch.html', title="Cofrestrwch" ,form=form)
+
+@app.route("/dwyffactor")
+def dilysu_dau_ffactor():
+	if 'email' not in session:
+		return redirect(url_for('cartref'))
+	user = Users.query.filter_by(Email=session['email']).first()
+	if user is None:
+		return redirect(url_for('cartref'))
+	return render_template('dilysu_dau_ffactor.html', title='2FA')
+
+@app.route("/Pleidleisiwch", methods=['GET','POST'])
+@login_required
+def Pleidleisiwch():
+    if current_user.check_vote_eligibility() & current_user.check_has_voted():
+        form = Pleidleisio()
+        #generates a form based on the political parties in the political party table
+        form.chosenParty.choices = [(PoliticalParty.UId, PoliticalParty.Name) for PoliticalParty in PoliticalParty.query.all()]
+        parties = PoliticalParty.query.all()
+        if request.method == 'POST':
+            timestamp = datetime.datetime.now()
+            #creates vote object with the users choice of political party
+            vote = Vote(PoliticalPartyID=form.chosenParty.data, VoteTimestamp=timestamp)
+            db.session.add(vote)
+            #executes a custom sql statement to make the user HasVoted column = 1
+            current_user.user_has_voted()
+            db.session.commit()
+            return redirect(url_for('diolch'))
+        return render_template('pleidleisio.html', politicalparty=parties, title="Tudalen Pleidleisio", form=form)
+    else:
+        return redirect(url_for('unauthorised'))
+
+@app.route("/diolch", methods=['GET', 'POST'])
+def diolch():
+    return render_template('diolch.html', title="Diolch am Bleidleisio!")

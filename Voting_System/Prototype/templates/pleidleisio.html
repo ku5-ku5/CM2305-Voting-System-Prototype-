@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+	<!-- code to read in and display the candidates you can vote for -->
+  <div class="vote-container">
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <!-- for loop is done within the routes.py file -->
+      <div class="voteItem">
+          {{ form.chosenParty }}
+      </div>
+      <section class="">
+        {{ form.submit() }}
+      </section>
+    </form>
+</div>
+{% endblock content %}
