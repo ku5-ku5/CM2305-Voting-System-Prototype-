@@ -5,7 +5,8 @@ password varchar(120) not null
 );
 
 create table votedb.election(
-title varchar(60) primary key,
-candidate1 varchar(60),
-candidate2 varchar(60),
-candidate3 varchar(60));
+title varchar(255) not null,
+election_date DATE not null,
+start_time TIME not null,
+end_time TIME not null,
+primary key (title));

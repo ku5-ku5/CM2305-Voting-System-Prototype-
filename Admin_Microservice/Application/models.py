@@ -20,10 +20,10 @@ class Official(db.Model, UserMixin):
 			return self.password == password
 
 class Election(db.Model, UserMixin):
-	title = db.Column(db.String(60), primary_key=True)
-	candidate1 = db.Column(db.String(60))
-	candidate2 = db.Column(db.String(60))
-	candidate3 = db.Column(db.String(60))
+	title = db.Column(db.String(255), nullable=False, primary_key=True)
+	election_date = db.Column(db.DATE, nullable=False)
+	start_time = db.Column(db.TIME, nullable=False)
+	end_time = db.Column(db.TIME, nullable=False)
 
 class Candidates(db.Model, UserMixin):
 	title = db.Column(db.String(60), primary_key=True)

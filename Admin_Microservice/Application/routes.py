@@ -48,7 +48,7 @@ def register():
 def create_election():
     form = CreateElectionForm()
     if form.validate_on_submit():
-        new_election = Election(title=form.title.data, candidate1=form.candidate1.data, candidate2=form.candidate2.data, candidate3=form.candidate3.data)
+        new_election = Election(title=form.title.data, election_date=form.election_date.data, start_time=form.start_time.data, end_time=form.end_time.data)
         db.session.add(new_election)
         db.session.commit()
         flash("Successfully Created Election!", "success")

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, RadioField, DateField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, RadioField, DateField, TimeField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, Regexp, ValidationError
 from Application.models import Official, Election, Candidates
 
@@ -22,11 +22,11 @@ class loginForm(FlaskForm):
 
 
 class CreateElectionForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired('Please enter the title for the election (e.g. "General Election 2019")')])
-    candidate1 = StringField('Candidate 1', validators=[DataRequired()])
-    candidate2 = StringField('Candidate 2', validators=[DataRequired()])
-    candidate3 = StringField('Candidate 3')
-    submit = SubmitField('Create Election')
+    title = StringField('Title of the Eleciton', validators=[DataRequired()])
+    election_date = DateField('What Date will the election take place? (YYYY-MM-DD)',  format='%Y-%m-%d', validators=[DataRequired()])
+    start_time = TimeField('What time does polling start?', validators=[DataRequired()])
+    end_time = TimeField('What time does polling end?', validators=[DataRequired()])
+    submit = SubmitField('Confirm')
 
     def validate_title(self, title):
         election_title = Election.query.filter_by(title=title.data).first()
