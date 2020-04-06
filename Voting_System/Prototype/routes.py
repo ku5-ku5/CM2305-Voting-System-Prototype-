@@ -79,8 +79,10 @@ def vote():
             db.session.commit()
             return redirect(url_for('vote_confirmed'))
         return render_template('vote.html', politicalparty=parties, title="Voting Page", form=form)
-    else:
+    elif current_user.check_vote_eligibility() == False:
         return redirect(url_for('unauthorised'))
+    elif current_user.check_has_voted() == False:
+        return redirect(url_for('alreadyvoted'))
 
 #USERS ARE REDIRECTED TO 2FA PAGE WHEN THEY REGISTER
 @app.route("/twofactor")
@@ -137,6 +139,10 @@ def vote_confirmed():
 def logout():
 	logout_user()
 	return redirect(url_for('index'))
+
+@app.route('/alreadyvoted', methods=['GET', 'POST'])
+def alreadyvoted():
+    return render_template('already_voted.html', title='Already Voted')
 
 
 #####CYMRAEG########
@@ -199,8 +205,18 @@ def Pleidleisiwch():
             db.session.commit()
             return redirect(url_for('diolch'))
         return render_template('pleidleisio.html', politicalparty=parties, title="Tudalen Pleidleisio", form=form)
-    else:
-        return redirect(url_for('unauthorised'))
+    elif current_user.check_vote_eligibility() == False:
+        return redirect(url_for('hebgofrestru'))
+    elif current_user.check_has_voted() == False:
+            return redirect(url_for('wedipleidleisio'))
+
+@app.route('/hebgofrestru')
+def hebgofrestru():
+    return render_template('hebgofrestru.html', title='Heb Gofrestru')
+
+@app.route('/wedipleidleisio')
+def wedipleidleisio():
+    return render_template('wedipleidleisio.html', title='Wedi Pleidleisio yn Barod')
 
 @app.route("/diolch", methods=['GET', 'POST'])
 def diolch():
