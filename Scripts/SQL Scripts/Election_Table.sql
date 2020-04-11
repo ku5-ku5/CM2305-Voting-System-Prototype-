@@ -1,0 +1,7 @@
+CREATE TABLE Elections( 
+    Id INT NOT NULL UNIQUE, 
+    Name VARCHAR(255) NOT NULL, 
+    StartDate DATETIME NOT NULL, 
+    EndDate DATETIME NOT NULL, 
+    PRIMARY KEY (Id)
+);
