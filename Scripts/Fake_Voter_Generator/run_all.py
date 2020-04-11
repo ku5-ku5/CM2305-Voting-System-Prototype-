@@ -60,7 +60,7 @@ def create_tables():
             print(err)
 
         try:
-            table_cursor.execute("CREATE TABLE `Vote` (VoteId CHAR(38) NOT NULL UNIQUE,PoliticalPartyID CHAR(38) NOT NULL,VoteTimestamp DATETIME NOT NULL,PRIMARY KEY (VoteId), ElectionId INT DEFAULT NULL, FOREIGN KEY (ElectionId) REFERENCES Elections(Id) DEFAULT 0, FOREIGN KEY (PoliticalPartyID) REFERENCES Political_Party(UId));")
+            table_cursor.execute("CREATE TABLE `Vote` (VoteId CHAR(38) NOT NULL UNIQUE,PoliticalPartyID CHAR(38) NOT NULL,VoteTimestamp DATETIME NOT NULL,PRIMARY KEY (VoteId), ElectionId INT DEFAULT 1, FOREIGN KEY (ElectionId) REFERENCES Elections(Id) DEFAULT 0, FOREIGN KEY (PoliticalPartyID) REFERENCES Political_Party(UId));")
             print("Vote table created")
         except mysql.connector.Error as err:
             print("Failed to create the Vote table")

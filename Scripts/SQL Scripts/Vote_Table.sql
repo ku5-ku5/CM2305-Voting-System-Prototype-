@@ -1,6 +1,6 @@
 CREATE TABLE Vote(
   UId CHAR(38),
-  VoteID int IDENTITY(1,1),
+  ElectionID int NOT NULL,
   PoliticalPartyID CHAR(38) NOT NULL,
   VoteTimestamp DATETIME NOT NULL,
   PRIMARY KEY (UId),
