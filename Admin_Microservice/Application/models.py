@@ -9,16 +9,16 @@ def load_user(user_id):
 	return Official.query.get(int(user_id))
 
 class Official(db.Model, UserMixin):
-	OfficialUid = db.Column(db.UUID, primary_key=True)
-	FirstName = db.Column(db.String(50), nullable=False)
-	Surname = db.Column(db.String(50),nullable=False)
-	Email = db.Column(db.String(240), unique=True, nullable=False)
-	PwdHash = db.Column(db.String(255), nullable=False)
-	IsAdmin = db.Column(db.TINYINT, default=0, nullable=False)
+	officialuid = db.Column(db.Integer, primary_key=True)
+	firstname = db.Column(db.String(50), nullable=False)
+	surname = db.Column(db.String(50),nullable=False)
+	email = db.Column(db.String(240), unique=True, nullable=False)
+	password = db.Column(db.String(255), nullable=False)
+
 
 	def get_id(self):
 		try:
-			return str(self.OfficialUid)
+			return str(self.officialuid)
 		except AttributeError:
 			raise NotImplementedError('No `UId` attribute - override `get_id`')
 
@@ -26,11 +26,10 @@ class Official(db.Model, UserMixin):
 		return f"User('{self.email}')"
 
 	def verify_password(self, password):
-		return self.PwdHash == password
+		return self.password == password
 
 class Election(db.Model, UserMixin):
-	Id = db.Column(db.Integer, nullable=False, primary_key=True)
-	Name = db.Column(db.String(255), nullable=False)
+	title = db.Column(db.String(255), nullable=False, primary_key=True)
 	election_date = db.Column(db.DATE, nullable=False)
 	start_time = db.Column(db.TIME, nullable=False)
 	end_time = db.Column(db.TIME, nullable=False)

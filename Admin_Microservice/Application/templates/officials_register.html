@@ -4,6 +4,12 @@
 			{{ form.hidden_tag() }}
 				<legend>Register as an Official</legend>
 				<div>
+					{{ form.firstname.label }} {{ form.firstname }}
+				</div>
+				<div>
+					{{ form.lastname.label }} {{ form.lastname }}
+				</div>
+				<div>
 					{{ form.email.label }} {{ form.email }}
 				</div>
 

@@ -26,7 +26,7 @@ def login():
     if form.validate_on_submit():
         #gets the data from the form
         user = Official.query.filter_by(email=form.email.data).first()
-        #checks that the user exists and that the password is correct 
+        #checks that the user exists and that the password is correct
         if user is not None and user.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()):
             #uses the flask login and logs in the user
             login_user(user)
@@ -40,13 +40,13 @@ def login():
 @app.route("/register", methods=['GET','POST'])
 #In a real working system this wouldn't exist
 def register():
-    #initiates the registration form 
+    #initiates the registration form
     form = Officials_Registration()
     if form.validate_on_submit():
-        #gets the data from the form 
+        #gets the data from the form
         #hashes the password in a sha256 hash
         password_hash = hashlib.sha256(form.password.data.encode()).hexdigest()
-        user = Official(email=form.email.data, password=password_hash)
+        user = Official(firstname=form.firstname.data, surname=form.lastname.data, email=form.email.data, password=password_hash)
         #pushes the user data to the database
         db.session.add(user)
         db.session.commit()
@@ -68,7 +68,7 @@ def create_election():
         return redirect(url_for('index'))
     return render_template("create_election.html", title="Create Election", form=form)
 
-#A page for admins and officials to view elections 
+#A page for admins and officials to view elections
 @app.route('/view_election')
 def view_election():
     connection = db.engine.raw_connection()
@@ -86,21 +86,21 @@ def logout():
 @app.route("/results", methods=['GET', 'POST'])
 def results():
     #page that gets all the vote data for the current election
-    votes = Vote.query.all()
-    parties = PoliticalParty.query.all()
-    results = {}
-    for party in parties:
-        results[party.Name] = 0
-    for vote in votes:
-        for party in parties:
-            if vote.PoliticalPartyID == party.UId:
-                results[party.Name] = results[party.Name] + 1
-
-            y_pos = np.arange(len(results.keys()))
-            plt.bar(y_pos, results.values(), align='center', alpha=0.5)
-            plt.xticks(y_pos, results.keys())
-            plt.ylabel('Votes')
-            plt.title('Election Results')
-            plt.savefig('Application/static/images/results_plot.png')
+    # votes = Vote.query.all()
+    # parties = PoliticalParty.query.all()
+    # results = {}
+    # for party in parties:
+    #     results[party.Name] = 0
+    # for vote in votes:
+    #     for party in parties:
+    #         if vote.PoliticalPartyID == party.UId:
+    #             results[party.Name] = results[party.Name] + 1
+    #
+    #         y_pos = np.arange(len(results.keys()))
+    #         plt.bar(y_pos, results.values(), align='center', alpha=0.5)
+    #         plt.xticks(y_pos, results.keys())
+    #         plt.ylabel('Votes')
+    #         plt.title('Election Results')
+    #         plt.savefig('Application/static/images/results_plot.png')
 
             return render_template("results.html", title="Election Results", url="/../static/images/results_plot.png")
