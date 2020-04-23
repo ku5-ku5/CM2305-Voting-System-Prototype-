@@ -37,12 +37,12 @@ def login():
     form = loginForm()
     if request.method == 'POST':
         user = Users.query.filter_by(Email=form.email.data).first()
-        if user is not None and user.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()):
+        if user is not None and user.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()) and user.verify_totp(form.otp_secret.data):
             login_user(user)
             flash("You are now Logged In", "success")
             return redirect(url_for('index'))
         else:
-            flash("Invalid Email or Password. Please try again", "danger")
+            flash("Invalid Email, Password or token. Please try again", "danger")
             return redirect(url_for('login'))
     return render_template('login.html', title="Online Vote - Login",form=form)
 
@@ -155,12 +155,12 @@ def mewngofnodi():
     form = Mewngofnodi()
     if request.method == 'POST':
         user = Users.query.filter_by(Email=form.email.data).first()
-        if user is not None and user.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()):
+        if user is not None and user.verify_password(hashlib.sha256(form.password.data.encode()).hexdigest()) and user.verify_totp(form.otp_secret.data):
             login_user(user)
             flash("Rydych wedi mewngofnodi yn lwyddianus!", "success")
             return redirect(url_for('cartref'))
         else:
-            flash("Ebost neu chyfrinair anghywir", "danger")
+            flash("Ebost, Token neu chyfrinair anghywir", "danger")
             return redirect(url_for('mewngofnodi'))
     return render_template('mewngofnodi.html', title="Mewngofnodwch",form=form)
 
