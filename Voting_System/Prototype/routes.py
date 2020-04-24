@@ -55,7 +55,7 @@ def register():
             user = Users(Email=form.email.data, PwdHash=hashed_password)
             db.session.add(user)
             db.session.commit()
-            flash("Account Created, You can now log in", 'success')
+            flash("Account Created, Please Scan the QR code to recieve your One Time Password", 'success')
             session['email'] = user.Email
             return redirect(url_for('two_factor_setup'))
     return render_template('register.html', title="Register" ,form=form)
@@ -173,7 +173,7 @@ def cofrestrwch():
             user = Users(Email=form.email.data, PwdHash=hashed_password)
             db.session.add(user)
             db.session.commit()
-            flash("Account Created, You can now log in", 'success')
+            flash("Cyfrif wedi ei greu, Sganiwch y cod QR i dderbyn eich cyfrinair gyfinachol", 'success')
             session['email'] = user.Email
             return redirect(url_for('dilysu_dau_ffactor'))
     return render_template('cofrestrwch.html', title="Cofrestrwch" ,form=form)
