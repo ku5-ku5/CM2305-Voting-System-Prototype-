@@ -1,7 +1,9 @@
-create table votedb.official(
-id integer primary key default 1,
-email varchar(240) unique not null,
-password varchar(120) not null
+create table votedb.official (
+officialuid integer primary key auto_increment,
+firstname char(50) not null,
+surname char(50) not null,
+email varchar(240) not null unique,
+password varchar(255) not null
 );
 
 create table votedb.election(

@@ -75,7 +75,7 @@ def create_tables():
             print(err)
 
         try:
-            table_cursor.execute("CREATE TABLE `Officials` (OfficialUId CHAR(38) NOT NULL UNIQUE,FirstName VARCHAR(50) NOT NULL, Surname VARCHAR(50) NOT NULL,Email VARCHAR(255) NOT NULL UNIQUE, PwdHash VARCHAR(255),IsAdmin TINYINT(1) DEFAULT 0, PRIMARY KEY (OfficialUId));")
+            table_cursor.execute("CREATE TABLE `official` (officialuid integer primary key auto_increment, firstname CHAR(50) NOT NULL, surname CHAR(50) NOT NULL, email VARCHAR(240) NOT NULL UNIQUE, password VARCHAR(255) not null);")
         except mysql.connector.Error as err:
             print("Failed to create officials table")
             print(err)
