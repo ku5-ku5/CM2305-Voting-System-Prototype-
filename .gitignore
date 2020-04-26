@@ -1,7 +1,7 @@
 *.pyc
 \venv
 \Fake_Voter_Generator\__pycache__
-\.vscode\
+\.vscode\*
 \__pycache__
 *.json
 Voting_System.zip

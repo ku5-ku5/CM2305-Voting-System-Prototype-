@@ -1,8 +1,9 @@
 from faker import Faker
 import mysql.connector
 import random
-import datetime
+from datetime import datetime, timedelta
 import time
+#import timedelta
 
 pwd = 'PASSWORD'
 
@@ -132,6 +133,19 @@ def parties():
 
     party_cursor.close()
 
+def create_election():
+    election_cursor = votedb.cursor()
+
+    date = datetime.now()
+    date2 = date + timedelta(days=365)
+
+    val = (date, date2)
+
+    sql = "INSERT INTO `votedb`.`elections`(`Id`,`Name`,`StartDate`,`EndDate`)VALUES(1,'Test', %s, %s)"
+
+    election_cursor.execute(sql, val)
+
+
 def remove_duplicates(x):
     return list(dict.fromkeys(x))
 
@@ -180,7 +194,7 @@ def fake_vote():
     while i < 100:
         i += 1
 
-        date = datetime.datetime.now()
+        date = datetime.now()
 
         val = (random.choice(party_array), date)
         cursor.execute(sql, val)
@@ -247,6 +261,7 @@ def add_admin():
 create_database()
 create_tables()
 #Insert statements that populate the data
+create_election()
 parties()
 fake_voters()
 fake_vote()

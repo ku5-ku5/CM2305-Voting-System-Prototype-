@@ -9,15 +9,24 @@ def load_user(user_id):
 	return Official.query.get(int(user_id))
 
 class Official(db.Model, UserMixin):
-		id = db.Column(db.Integer, primary_key=True)
-		email = db.Column(db.String(240), unique=True, nullable=False)
-		password = db.Column(db.String(120), nullable=False)
+	officialuid = db.Column(db.Integer, primary_key=True)
+	firstname = db.Column(db.String(50), nullable=False)
+	surname = db.Column(db.String(50),nullable=False)
+	email = db.Column(db.String(240), unique=True, nullable=False)
+	password = db.Column(db.String(255), nullable=False)
 
-		def __repr__(self):
-			return f"User('{self.email}')"
 
-		def verify_password(self, password):
-			return self.password == password
+	def get_id(self):
+		try:
+			return str(self.officialuid)
+		except AttributeError:
+			raise NotImplementedError('No `UId` attribute - override `get_id`')
+
+	def __repr__(self):
+		return f"User('{self.email}')"
+
+	def verify_password(self, password):
+		return self.password == password
 
 class Election(db.Model, UserMixin):
 	title = db.Column(db.String(255), nullable=False, primary_key=True)

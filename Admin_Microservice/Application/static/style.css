@@ -15,8 +15,7 @@ h1 {	font-family:sans-serif;
 p {font-family: Tahoma, Geneva, sans-serif;
   font-style: normal;
   font-weight: normal;
-  color:  #000000
-  font-size: 200px;
+  color:  #000000;
 }
 
 
@@ -28,10 +27,7 @@ p {font-family: Tahoma, Geneva, sans-serif;
 .flashes {
 	text-decoration: none;
 }
-<<<<<<< HEAD
 
 chart-area {
-	width: 100%
+	width: 100%;
 }
-=======
->>>>>>> cb85ee01714b3e15f97d812840e77d1121066798
