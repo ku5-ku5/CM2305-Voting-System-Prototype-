@@ -1,14 +1,17 @@
-create table votedb.official (
-officialuid integer primary key auto_increment,
-firstname char(50) not null,
-surname char(50) not null,
-email varchar(240) not null unique,
-password varchar(255) not null
+CREATE TABLE votedb.Officials(
+  OfficialUId CHAR(38),
+  FirstName CHAR(50),
+  Surname CHAR(50),
+  Email VARCHAR(255) NOT NULL,
+  PwdHash VARCHAR(255),
+  IsAdmin TINYINT(1) DEFAULT 0,
+  PRIMARY KEY (OfficialUId)
 );
 
-create table votedb.election(
-title varchar(255) not null,
-election_date DATE not null,
-start_time TIME not null,
-end_time TIME not null,
-primary key (title));
+CREATE TABLE votedb.Election( 
+    Id INT NOT NULL UNIQUE, 
+    Name VARCHAR(255) NOT NULL, 
+    StartDate DATETIME NOT NULL, 
+    EndDate DATETIME NOT NULL, 
+    PRIMARY KEY (Id)
+);
