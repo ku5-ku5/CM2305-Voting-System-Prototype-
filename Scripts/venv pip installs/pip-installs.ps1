@@ -1,9 +1,8 @@
 ﻿#May need to run set-executionpolicy remotesigned in an elevated powershell terminal
 
 #May need to change the below to match your directory
-$path = "C:\repos\CM2305-Voting-System-Prototype-"
-#Builds 
-Set-Location $path + "\Voting_System"
+#Builds venv for 
+CMD /C "cd C:\repos\CM2305-Voting-System-Prototype-\Voting_System"
 
 CMD /C "py -m venv venv"
 
@@ -13,13 +12,13 @@ CMD /C "pip install -r requirements.txt"
 
 #Builds the venv for admin service
 
-Set-Location $path + "\Admin_Microservice"
+CMD /C "cd C:\repos\CM2305-Voting-System-Prototype-\Admin_Microservice"
 
 CMD /C "py -m venv venv"
 
 CMD /C "venv\Scripts\activate"
 
-CMD /C "pip install -r requirements.txt"
+CMD /C "pip install -r C:\repos\CM2305-Voting-System-Prototype-\Admin_Microservice\requirements.txt"
 
 
 # SIG # Begin signature block
