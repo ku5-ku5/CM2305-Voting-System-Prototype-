@@ -12,4 +12,4 @@ cd C:\repos\CM2305-Voting-System-Prototype-\Admin_Microservice
 
 py -m venv venv
 
-venv\Scripts\pip install -r C:\repos\CM2305-Voting-System-Prototype-\Admin_Microservice\requirements.txt
+venv\Scripts\pip install -r C:\repos\CM2305-Voting-System-Prototype-\Admin_Microservice\requirements.txt  
